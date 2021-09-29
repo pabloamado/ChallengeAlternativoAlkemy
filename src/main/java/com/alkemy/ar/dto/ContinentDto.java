@@ -12,6 +12,8 @@ public class ContinentDto {
 		
 	}
 
+	public ContinentDto() {}
+
 	public String getImg() {
 		return img;
 	}

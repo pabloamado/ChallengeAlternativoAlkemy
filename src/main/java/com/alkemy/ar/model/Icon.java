@@ -39,7 +39,7 @@ public class Icon {
 	private String story;
 	
 	@ManyToMany(mappedBy = "icons", fetch=FetchType.LAZY,cascade= {CascadeType.DETACH,
-			CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH} )
+			CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Location> locations;
 	
 	public Icon() {}
@@ -116,8 +116,5 @@ public class Icon {
 		location.addIcon(this);
 		
 	}
-	
-	
-	
-	
+		
 }

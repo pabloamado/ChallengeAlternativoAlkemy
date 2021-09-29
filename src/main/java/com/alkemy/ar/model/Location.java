@@ -41,7 +41,6 @@ public class Location {
 	@JoinColumn(name="continent_id")
 	private Continent continent;
 	
-	
 	@ManyToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
 			CascadeType.REFRESH},fetch=FetchType.LAZY )
 	@JoinTable(
@@ -103,8 +102,11 @@ public class Location {
 	public List<Icon> getIcons() {
 		
 		if(icons==null) {
+			
 			icons=new ArrayList<>();
+			
 		}
+		
 		return icons;
 	}
 
