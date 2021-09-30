@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ar.dto.ContinentDto;
+import com.alkemy.ar.error.ErrorMsg;
+import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.parser.ParserEntity;
 import com.alkemy.ar.repository.ContinentRepository;
@@ -19,7 +21,6 @@ public class ContinentService {
 	@Autowired
 	private ContinentRepository continentRepository;
 
-	
 	//listo
 	@Transactional
 	public ContinentDto save(ContinentDto continentDto) throws IllegalArgumentException, Exception {
@@ -30,20 +31,19 @@ public class ContinentService {
 
 	}
 
+	//listo
 	@Transactional
-	public boolean delete(Long id) throws IllegalArgumentException, Exception {
-
-		boolean success = false;
+	public boolean delete(Long id) throws ContinentException,IllegalArgumentException, Exception {
 
 		if (continentRepository.existsById(id)) {
 
 			continentRepository.deleteById(id);
 
-			success = true;
+			return true;
 
 		}
-
-		return success;
+			
+		throw new ContinentException(ErrorMsg.CONTINENT_NOT_FOUND.toString());
 
 	}
 
@@ -68,9 +68,8 @@ public class ContinentService {
 
 		Continent continent = continentRepository.getById(id);
 		
-		ContinentDto continentDto=ParserEntity.toDtoContinent(continent);
+		return ParserEntity.toDtoContinent(continent);
 
-		return continentDto;
 	}
 
 	//listo
@@ -79,10 +78,8 @@ public class ContinentService {
 
 		List<Continent> continents = (List<Continent>) continentRepository.findAll();
 		
-		
-		List<ContinentDto> continentsDto = ParserEntity.toDtoContinent(continents);
+		return ParserEntity.toDtoContinent(continents);
 
-		return continentsDto;
 	}
 
 }

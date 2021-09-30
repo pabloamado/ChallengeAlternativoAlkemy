@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.error.CustomError;
 import com.alkemy.ar.error.ErrorMsg;
+import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.service.ContinentService;
 import com.alkemy.ar.validator.DtoValidator;
 
@@ -66,7 +67,7 @@ public class ContinentController {
 			
 			ContinentDto continent = continentService.get(id);
 
-			return ResponseEntity.ok().body(continent);
+			return ResponseEntity.ok(continent);
 
 		} catch(NumberFormatException e) {
 			
@@ -93,7 +94,7 @@ public class ContinentController {
 
 			List<ContinentDto> continents = continentService.getAll();
 
-			return ResponseEntity.ok().body(continents);
+			return ResponseEntity.ok(continents);
 
 		} catch (Exception e) {
 
@@ -114,7 +115,7 @@ public class ContinentController {
 
 				ContinentDto continent = continentService.update(id, continentDto);
 
-				return ResponseEntity.ok().body(continent);
+				return ResponseEntity.ok(continent);
 
 			} catch(NumberFormatException e) {
 				
@@ -169,7 +170,12 @@ public class ContinentController {
 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
 
-		} catch (Exception e) {
+		}  catch (ContinentException e) {
+
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
+
+		}
+		catch (Exception e) {
 
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
 

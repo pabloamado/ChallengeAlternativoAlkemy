@@ -36,13 +36,17 @@ public class Location {
 	@Column(name="loc_surface")
 	private float surface;
 	
+	@Column(name="continent_id")
+	private Long continentId;
+	
+	
 	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
 			CascadeType.REFRESH}, fetch=FetchType.EAGER)
-	@JoinColumn(name="continent_id")
+	@JoinColumn(name="continent_id", insertable=false, updatable=false)
 	private Continent continent;
 	
 	@ManyToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
-			CascadeType.REFRESH},fetch=FetchType.LAZY )
+			CascadeType.REFRESH},fetch=FetchType.LAZY)
 	@JoinTable(
 	        name = "locations_icons", 
 	        joinColumns = { @JoinColumn(name = "location_loc_id") }, 
@@ -51,12 +55,13 @@ public class Location {
 
 	public Location() {}
 
-	public Location(String img, String denomination, int population, float surface) {
+	public Location(String img, String denomination, int population, float surface,Long continentId) {
 		
 		this.img = img;
 		this.denomination = denomination;
 		this.population = population;
 		this.surface = surface;
+		this.continentId=continentId;
 	}
 
 	public Long getlId() {
@@ -98,6 +103,26 @@ public class Location {
 	public void setSurface(float surface) {
 		this.surface = surface;
 	}
+	
+	public Long getContinentId() {
+		return continentId;
+	}
+
+	public void setContinentId(Long continentId) {
+		this.continentId = continentId;
+	}
+	
+	public Continent getContinent() {
+		return continent;
+	}
+
+	public void setContinent(Continent continent) {
+		this.continent = continent;
+	}
+
+	public void setIcons(List<Icon> icons) {
+		this.icons = icons;
+	}
 
 	public List<Icon> getIcons() {
 		
@@ -115,14 +140,6 @@ public class Location {
 		getIcons().add(icon);
 		
 		icon.addLocation(this);
-	}
-	
-	public Continent getContinent() {
-		return continent;
-	}
-
-	public void setContinent(Continent continent) {
-		this.continent = continent;
 	}
 	
 }
