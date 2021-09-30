@@ -28,14 +28,6 @@ public class IconController {
 	private IconService iconService;
 	
 	
-	@GetMapping 
-	public ResponseEntity<Icon> getIcons(){
-		
-		//mostrar solo img y denominacion de los icons
-		
-		return null;
-	}
-	
 	@PostMapping 
 	public ResponseEntity<Icon> saveIcon(@RequestBody IconDto iconDto){
 		
@@ -49,17 +41,11 @@ public class IconController {
 		return null;
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Icon> deleteIcon(@PathVariable Long id){
+	@GetMapping 
+	public ResponseEntity<Icon> getIcons(){
 		
+		//mostrar solo img y denominacion de los icons
 		
-		return null;
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Icon>updateIcon(@PathVariable Long id, @RequestBody IconDto iconDto){
-		
-		//deberia pedir el id del location en el body o en el path para actualizar?
 		return null;
 	}
 	
@@ -80,5 +66,23 @@ public class IconController {
 		
 		return null;
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Icon>updateIcon(@PathVariable Long id, @RequestBody IconDto iconDto){
+		
+		//deberia pedir el id del location en el body o en el path para actualizar?
+		return null;
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Icon> deleteIcon(@PathVariable Long id){
+		
+		
+		return null;
+	}
+	
+	
+	
+	
 
 }

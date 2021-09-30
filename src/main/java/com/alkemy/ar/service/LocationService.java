@@ -123,7 +123,9 @@ public class LocationService {
 	public LocationDtoGetOne get(Long id) throws EntityNotFoundException, Exception {
 
 		Location location=locationRepository.getById(id);
+		
 		//chequear que la lista de iconos pueda ser extraida del location
+		
 		return ParserEntity.toDtoLocationGetOne(location);
 		
 	}
@@ -162,16 +164,12 @@ public class LocationService {
 
 	//LISTO DEVUELVE VACIO SI SE INTRODUCE UN ID ERRONEO
 	@Transactional
-	public List<LocationDtoGetAll> getByContinent(Long continent) throws Exception {
+	public List<LocationDtoGetAll> getByContinent(Long continentId) throws Exception {
 		
 		Session session=sessionFactory.openSession();
 			
 		List<Location> locations=session.createQuery(" from Location loc where loc.continentId = :continent")
-				.setParameter("continent", continent).getResultList();
-		
-		//List<LocationDtoGetAll> locationsDto=ParserEntity.toDtoLocationGetAll(locations);
-		
-		//return locationsDto;
+				.setParameter("continent", continentId).getResultList();
 		
 		return ParserEntity.toDtoLocationGetAll(locations);
 		
