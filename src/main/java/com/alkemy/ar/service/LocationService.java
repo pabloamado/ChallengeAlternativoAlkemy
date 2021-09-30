@@ -1,21 +1,21 @@
 package com.alkemy.ar.service;
 
 import java.util.List;
-
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
-import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.dto.LocationDtoGetOne;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.exception.LocationException;
-import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.model.Icon;
 import com.alkemy.ar.model.Location;
 import com.alkemy.ar.parser.ParserEntity;
@@ -35,6 +35,9 @@ public class LocationService {
 	@Autowired
 	private IconRepository iconRepository;
 
+	@Autowired
+	SessionFactory sessionFactory;
+	
 	//testeado
 	@Transactional
 	public LocationDto save(LocationDto locationDto) throws ContinentException, IllegalArgumentException, Exception {
@@ -133,6 +136,58 @@ public class LocationService {
 		
 		return ParserEntity.toDtoLocationGetAll(locations);
 		
+	}
+	
+	//listo
+	@Transactional
+	public List<LocationDtoGetAll> getAllByOrder(String order) throws Exception {
+
+		List<Location> locations;
+		
+		//obligatoriamente el ordenamiento debe hacerse por algun campo del objeto
+		
+		if(order.equalsIgnoreCase("asc")){
+			
+			locations=locationRepository.findAll(Sort.by("img"));
+			
+		} else {
+			
+			locations=locationRepository.findAll(Sort.by(Direction.DESC, "img"));
+			
+		}
+		
+		return ParserEntity.toDtoLocationGetAll(locations);
+		
+	}
+
+	//LISTO DEVUELVE VACIO SI SE INTRODUCE UN ID ERRONEO
+	@Transactional
+	public List<LocationDtoGetAll> getByContinent(Long continent) throws Exception {
+		
+		Session session=sessionFactory.openSession();
+			
+		List<Location> locations=session.createQuery(" from Location loc where loc.continentId = :continent")
+				.setParameter("continent", continent).getResultList();
+		
+		//List<LocationDtoGetAll> locationsDto=ParserEntity.toDtoLocationGetAll(locations);
+		
+		//return locationsDto;
+		
+		return ParserEntity.toDtoLocationGetAll(locations);
+		
+	}
+
+	//listo
+	@Transactional
+	public LocationDtoGetOne getByName(String name) throws NoResultException,Exception {
+		
+		Session session=sessionFactory.openSession();
+		
+		Location location=(Location) session.createQuery(" from Location loc where loc.denomination =:name")
+				.setParameter("name", name).getSingleResult();
+		
+
+		return ParserEntity.toDtoLocationGetOne(location);
 	}
 
 }

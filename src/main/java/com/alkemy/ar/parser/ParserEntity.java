@@ -80,13 +80,17 @@ public class ParserEntity {
 	// listo
 	public static LocationDto toDtoLocation(Location location) {
 
-		LocationDto locationDto = new LocationDto(
-				location.getImg(),
-				location.getDenomination(),
-				location.getPopulation(),
-				location.getSurface(),
-				location.getContinentId());
-
+		LocationDto locationDto = new LocationDto();
+		
+		if(location!=null) {
+			
+			 locationDto.setImg(location.getImg());
+			 location.setDenomination(location.getDenomination());
+			 location.setPopulation(location.getPopulation());
+			 location.setSurface(location.getSurface());
+			 location.setContinentId(location.getContinentId());
+		}
+	
 		return locationDto;
 	}
 
@@ -116,14 +120,17 @@ public class ParserEntity {
 	//listo
 	public static LocationDtoGetOne toDtoLocationGetOne(Location location) {
 		
-		LocationDtoGetOne locationDto=new LocationDtoGetOne(
-				location.getImg(),
-				location.getDenomination(),
-				location.getPopulation(),
-				location.getSurface(),
-				location.getContinentId(),
-				location.getIcons()
-				);
+		LocationDtoGetOne locationDto=new LocationDtoGetOne();
+		
+		if (location != null) {
+			
+			locationDto.setImg(location.getImg());
+			locationDto.setDenomination(location.getDenomination());
+			locationDto.setPopulation(location.getPopulation());
+			locationDto.setSurface(location.getSurface());
+			locationDto.setContinentId(location.getContinentId());
+			locationDto.setIcons(location.getIcons());
+		}	
 		
 		return locationDto;
 	}

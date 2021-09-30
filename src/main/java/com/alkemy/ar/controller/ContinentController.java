@@ -71,7 +71,7 @@ public class ContinentController {
 
 		} catch(NumberFormatException e) {
 			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION
 					+ " " + new CustomError(e.getMessage()));
 			
 		}catch (EntityNotFoundException e) {
@@ -120,7 +120,7 @@ public class ContinentController {
 			} catch(NumberFormatException e) {
 				
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(
-						ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION + " " + e.getMessage()));
+						ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
 				
 			}catch (EntityNotFoundException e) {
 
@@ -163,7 +163,7 @@ public class ContinentController {
 
 		}catch(NumberFormatException e) {
 			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION
 					+ " " + new CustomError(e.getMessage()));
 			
 		}catch (IllegalArgumentException e) {

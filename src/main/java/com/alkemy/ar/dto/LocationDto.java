@@ -8,6 +8,8 @@ public class LocationDto {
 	private float surface;
 	private Long continentId;
 
+	public LocationDto() {}
+	
 	public LocationDto(String img, String denomination, int population, float surface, Long continentId) {
 	
 		this.img = img;

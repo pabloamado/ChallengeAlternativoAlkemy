@@ -1,9 +1,9 @@
 package com.alkemy.ar.controller;
 
+
 import java.util.List;
-
 import javax.persistence.EntityNotFoundException;
-
+import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +81,7 @@ public class LocationController {
 		} catch (NumberFormatException e) {
 
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION + " " + e.getMessage()));
+					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
 
 		} catch (EntityNotFoundException e) {
 			
@@ -95,7 +95,7 @@ public class LocationController {
 
 	}
 
-	//testeado funciona
+	//testeado
 	@GetMapping
 	public ResponseEntity<?> getLocations() {
 
@@ -112,35 +112,76 @@ public class LocationController {
 
 	}
 
-	//pendiente
+	//testeado
 	@GetMapping(params = "name")
 	public ResponseEntity<?> getLocationByName(@RequestParam String name) {
 
-		// busca la localizacio por nombre de denominacion y muestra solo img,
-		// denomination y population
-
-		return null;
+		try {
+			
+			LocationDtoGetOne location=locationService.getByName(name);
+			
+			return  ResponseEntity.ok(location);
+			
+		}catch(NoResultException e) {
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
+			
+		}catch(Exception e) {
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+			
+		}
+		
 	}
 
-	//pendiente
+	//testeado
 	@GetMapping(params = "continent")
-	public ResponseEntity<?> getLocationsByContinent(@RequestParam Long continent) {
+	public ResponseEntity<?> getLocationsByContinent(@RequestParam String continent) {
 
-		// buscar todas las localizaciones y mostrar solo img, denomination y
-		// population, por continente,
-		// es un group by order asc
+		try {
 
-		return null;
+			Long continentId = Long.valueOf(continent);
+			
+			List<LocationDtoGetAll> locations=locationService.getByContinent(continentId);
+			
+			return ResponseEntity.ok(locations);
+			
+		}catch(NumberFormatException e) {
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
+
+		} catch (Exception e) {
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+			
+		}
+
 	}
 
-	//pendiente
+	//testeado 
 	@GetMapping(params = "order")
 	public ResponseEntity<?> getLocationsByOrder(@RequestParam String order) {
 
-		// buscar todas las localizaciones y mostrar solo img, denomination y
-		// population, por orden desc o asc
-
-		return null;
+		if(order.equalsIgnoreCase("desc") || order.equalsIgnoreCase("asc")) {
+			
+			try {
+					
+				List<LocationDtoGetAll> locations=locationService.getAllByOrder(order);
+				
+				return ResponseEntity.ok(locations);
+				
+			} catch (Exception e) {
+				
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+				
+			}
+			
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(
+				ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION.toString()));
+		
 	}
 
 	//testeado
@@ -160,7 +201,7 @@ public class LocationController {
 			} catch (NumberFormatException e) {
 
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION + " " + e.getMessage()));
+						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
 
 			} catch (EntityNotFoundException e) {
 
@@ -202,7 +243,7 @@ public class LocationController {
 		}catch(NumberFormatException e) {
 			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXEPTION + " " + e.getMessage()));
+					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
 			
 		} catch(LocationException e) {
 			
