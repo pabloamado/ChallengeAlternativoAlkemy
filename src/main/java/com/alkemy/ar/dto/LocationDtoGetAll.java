@@ -6,15 +6,6 @@ public class LocationDtoGetAll {
 	private String img;
 	private String denomination;
 	private int population;
-	
-	public LocationDtoGetAll(String img, String denomination, int population) {
-		
-		this.img = img;
-		this.denomination = denomination;
-		this.population = population;
-	}
-	
-	public LocationDtoGetAll() {}
 
 	public String getImg() {
 		return img;

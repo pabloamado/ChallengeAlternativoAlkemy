@@ -33,7 +33,7 @@ public class LocationMapper {
 
 			setLocationDtoValues(locationDto, location);
 
-			locationDto.setIcons(IconMapper.toDtoIconList(location.getIcons()));
+			locationDto.setIcons(IconMapper.toIconDtoList(location.getIcons()));
 		}
 
 		return locationDto;

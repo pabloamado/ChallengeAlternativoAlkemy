@@ -135,10 +135,9 @@ public class Location {
 	}
 
 	public void addIcon(Icon icon) {
-		//con esto solo funcionaba todo
+		
 		getIcons().add(icon);
 		
-		//probamos esto
 		icon.getLocations().add(this);
 		
 	}
@@ -150,6 +149,5 @@ public class Location {
 		
 		icon.getLocations().remove(this);
 	}
-	
 	
 }

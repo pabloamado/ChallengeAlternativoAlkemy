@@ -11,19 +11,6 @@ public class LocationDto {
 	private Long continentId;
 	private List<IconDto> icons;
 
-	public LocationDto() {}
-	
-	public LocationDto(String img, String denomination, int population, float surface, 
-			Long continentId, List<IconDto> icons) {
-	
-		this.img = img;
-		this.denomination = denomination;
-		this.population = population;
-		this.surface = surface;
-		this.continentId=continentId;
-		this.icons=icons;
-	}
-	
 	public String getImg() {
 		return img;
 	}

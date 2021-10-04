@@ -13,12 +13,9 @@ import org.springframework.stereotype.Service;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.error.ErrorMsg;
-import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.mapper.LocationMapper;
-import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.model.Location;
-import com.alkemy.ar.repository.ContinentRepository;
 import com.alkemy.ar.repository.LocationRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
 
@@ -26,29 +23,22 @@ import com.alkemy.ar.updater.UpdaterEntity;
 public class LocationService {
 
 	@Autowired
-	private ContinentRepository continentRepository;
-
-	@Autowired
 	private LocationRepository locationRepository;
 	
 	@Autowired
 	SessionFactory sessionFactory;
 	
+	
+	//ya no pregunto si el continente existe
 	@Transactional
 	public LocationDto save(LocationDto locationDto) throws LocationException,
 	IllegalArgumentException, Exception {
-
-		if (continentRepository.existsById(locationDto.getContinentId())) {
 
 			Location location = LocationMapper.toLocation(locationDto);
 
 			location = locationRepository.save(location);
 			
 			return LocationMapper.toDtoLocation(location);
-
-		} 
-
-		throw new ContinentException(ErrorMsg.NO_CONTINENT_RELATED_TO_LOCATION.toString());
 
 	}
 
@@ -67,13 +57,11 @@ public class LocationService {
 
 	}
 
-
+	//ya no pregunto si el continente existe
 	@Transactional
 	public LocationDto update(Long id, LocationDto locationDto)
 			throws LocationException,EntityNotFoundException, IllegalArgumentException, Exception {
-		
-		if(continentRepository.existsById(locationDto.getContinentId())) {
-			
+	
 			Location location=locationRepository.getById(id);
 			
 			UpdaterEntity.updateLocation(location, locationDto);
@@ -82,14 +70,9 @@ public class LocationService {
 			
 			return LocationMapper.toDtoLocationUpdate(location);
 			
-		} 
-		
-		throw new LocationException(ErrorMsg.NO_CONTINENT_RELATED_TO_LOCATION.toString());
-		
 	}
 
-	//listo PROBAR SI SE VEN LOS ICONOS RELACIONADOS A UN PAIS REVISAR YA QUE  AHORA SE GUARDAN 
-	//LOS ICONOS JUNTO AL PAIS
+	//listo
 	@Transactional
 	public LocationDto get(Long id) throws EntityNotFoundException, Exception {
 
@@ -138,18 +121,13 @@ public class LocationService {
 				.setParameter("continent", continentId).getResultList();*/
 		
 		//forma mas correcta
-		if(continentRepository.existsById(continentId)) {
 			
-			Continent continent=continentRepository.getById(continentId);
+			Location location=locationRepository.getById(continentId);
 			
-			List<Location> locations=continent.getLocations();
+			List<Location> locations=location.getContinent().getLocations();
 			
 			return LocationMapper.toDtoLocationGetAll(locations);
-			
-		}
-		
-		throw new LocationException(ErrorMsg.NO_CONTINENT_RELATED_TO_LOCATION.toString());
-			
+					
 	}
 
 	@Transactional
@@ -161,6 +139,19 @@ public class LocationService {
 				.setParameter("name", name).getSingleResult();
 		
 		return LocationMapper.toDtoLocation(location);
+	}
+	
+	
+	//METODOS USADOS EN EL ICON SERVICE
+	public Location getById(Long locationId) {
+		
+		return locationRepository.getById(locationId);
+	}
+
+	public Location save(Location location) {
+		
+		return locationRepository.save(location);
+		
 	}
 
 }

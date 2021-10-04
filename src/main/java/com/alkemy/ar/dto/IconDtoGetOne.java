@@ -1,14 +1,16 @@
 package com.alkemy.ar.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class IconDto {
+public class IconDtoGetOne {
 
 	private String img;
 	private String denomination;
 	private LocalDate creationDate;
 	private float height;
-	private String story;	
+	private String story;
+	private List<LocationDtoGetAll> locations;
 	
 	public String getImg() {
 		return img;
@@ -33,10 +35,10 @@ public class IconDto {
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
-	
 	public float getHeight() {
 		return height;
 	}
+	
 	public void setHeight(float height) {
 		this.height = height;
 	}
@@ -48,5 +50,14 @@ public class IconDto {
 	public void setStory(String story) {
 		this.story = story;
 	}
-		
+	
+	public List<LocationDtoGetAll> getLocations() {
+		return locations;
+	}
+	
+	public void setLocations(List<LocationDtoGetAll> locations) {
+		this.locations = locations;
+	}
+	
+	
 }

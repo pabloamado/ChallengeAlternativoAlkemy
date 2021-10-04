@@ -8,16 +8,6 @@ public class LocationDtoUpdate {
 	private float surface;
 	private Long continentId;
 	
-	public LocationDtoUpdate(String img, String denomination, int population, float surface, Long continentId) {
-	
-		this.img = img;
-		this.denomination = denomination;
-		this.population = population;
-		this.surface = surface;
-		this.continentId = continentId;
-	}
-	
-
 	public String getImg() {
 		return img;
 	}

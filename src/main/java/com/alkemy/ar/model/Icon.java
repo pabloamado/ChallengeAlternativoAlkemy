@@ -1,7 +1,6 @@
 package com.alkemy.ar.model;
 
 import java.util.ArrayList;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
@@ -106,7 +105,9 @@ public class Icon {
 	public List<Location> getLocations() {
 		
 		if(locations==null) {
+			
 			locations=new ArrayList<>();
+			
 		}
 		return locations;
 	}

@@ -13,18 +13,6 @@ public class LocationDtoGetOne {
 	private Long continentId;
 	private List<Icon> icons;
 
-	public LocationDtoGetOne() {}
-	
-	public LocationDtoGetOne(String img, String denomination, int population, float surface, Long continentId,List<Icon> icons) {
-	
-		this.img = img;
-		this.denomination = denomination;
-		this.population = population;
-		this.surface = surface;
-		this.continentId=continentId;
-		this.icons=icons;
-	}
-	
 	public String getImg() {
 		return img;
 	}
