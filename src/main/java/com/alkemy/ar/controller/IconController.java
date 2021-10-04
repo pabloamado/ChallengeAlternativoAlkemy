@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alkemy.ar.dto.IconDto;
-import com.alkemy.ar.model.Icon;
+import com.alkemy.ar.error.CustomError;
+import com.alkemy.ar.error.ErrorMsg;
+import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.service.IconService;
+import com.alkemy.ar.validator.DtoValidator;
 
 @RestController
 @RequestMapping("/icon")
@@ -27,62 +29,156 @@ public class IconController {
 	@Autowired
 	private IconService iconService;
 	
+	//EMPEZAR POR ACA
+	@PostMapping("/{idIcon}/location/{idLocation}")
+	public ResponseEntity<?> saveIcon(@PathVariable String idIcon,@PathVariable String idLocation,@RequestBody IconDto iconDto) {
+
+		if (DtoValidator.validDtoProperties(iconDto)) {
+
+			try {
+
+				IconDto icon = iconService.save(iconDto);
+
+				return ResponseEntity.ok(icon);
+
+			} catch (LocationException e) {
+
+				return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
+
+			} catch (IllegalArgumentException e) {
+
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
+
+			} catch (Exception e) {
+
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+
+			}
+
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
+	}
+
 	
-	@PostMapping 
-	public ResponseEntity<Icon> saveIcon(@RequestBody IconDto iconDto){
+	@GetMapping("/{idIcon}")
+	public ResponseEntity<?> getIcon(@PathVariable String idIcon) {
+
+		// mostrar todos los datos del icono y la lista de paises que lo contienen
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
+
+		return null;
+	}
+
+	@GetMapping
+	public ResponseEntity<?> getIcons() {
+
+		// mostrar solo img y denominacion de los icons
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
+
+		return null;
+	}
+
+	@GetMapping(params = "name")
+	public ResponseEntity<?> getIconsByName(@RequestParam String name) {
+
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
 		
 		return null;
 	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Icon> getIcon(@PathVariable Long id){
-		
-		//mostrar todos los datos del icono y la lista de paises que lo contienen
-		return null;
-	}
-	
-	@GetMapping 
-	public ResponseEntity<Icon> getIcons(){
-		
-		//mostrar solo img y denominacion de los icons
-		
-		return null;
-	}
-	
-	@GetMapping(params="name")
-	public ResponseEntity<Icon> getIconsByName(@RequestParam String name){
+
+	@GetMapping(params = "date")
+	public ResponseEntity<?> getIconsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy.MM.dd") Date date) {
+
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
 		
 		return null;
 	}
-	
-	@GetMapping(params="date") 
-	public ResponseEntity<Icon> getIconsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy.MM.dd") Date date){
+
+	@GetMapping(params = "location")
+	public ResponseEntity<?> getIconsByLocation(@RequestParam Long location) {
+
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
+
+		return null;
+	}
+
+	//listo
+	@PutMapping("/{idIcon}")
+	public ResponseEntity<?> updateIcon(@PathVariable String idIcon, @RequestBody IconDto iconDto) {
+
+		if (DtoValidator.validDtoProperties(iconDto)) {
+
+			try {
+
+				Long id = Long.valueOf(idIcon);
+
+				IconDto icon = iconService.update(id, iconDto);
+
+				return ResponseEntity.ok(icon);
+
+			} catch (NumberFormatException e) {
+
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
+
+			} catch (Exception e) {
+
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+
+			}
+
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
+				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
+
+	}
+
+	@DeleteMapping("/{idIcon}/location/{idLocation}")
+	public ResponseEntity<?> deleteIcon(@PathVariable String idIcon,@PathVariable String idLocation) {
+
+		try {
+			
+			
+		}catch(Exception e) {
+			
+			
+		}
+		
 		
 		return null;
 	}
-	
-	@GetMapping(params="location") 
-	public ResponseEntity<Icon> getIconsByLocation(@RequestParam Long location){
-		
-		return null;
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Icon>updateIcon(@PathVariable Long id, @RequestBody IconDto iconDto){
-		
-		//deberia pedir el id del location en el body o en el path para actualizar?
-		return null;
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Icon> deleteIcon(@PathVariable Long id){
-		
-		
-		return null;
-	}
-	
-	
-	
-	
 
 }

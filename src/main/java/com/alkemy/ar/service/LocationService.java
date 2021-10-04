@@ -12,16 +12,15 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
-import com.alkemy.ar.dto.LocationDtoGetOne;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.exception.LocationException;
-import com.alkemy.ar.model.Icon;
+import com.alkemy.ar.mapper.LocationMapper;
+import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.model.Location;
-import com.alkemy.ar.parser.ParserEntity;
 import com.alkemy.ar.repository.ContinentRepository;
-import com.alkemy.ar.repository.IconRepository;
 import com.alkemy.ar.repository.LocationRepository;
+import com.alkemy.ar.updater.UpdaterEntity;
 
 @Service
 public class LocationService {
@@ -33,50 +32,30 @@ public class LocationService {
 	private LocationRepository locationRepository;
 	
 	@Autowired
-	private IconRepository iconRepository;
-
-	@Autowired
 	SessionFactory sessionFactory;
 	
-	//testeado
 	@Transactional
-	public LocationDto save(LocationDto locationDto) throws ContinentException, IllegalArgumentException, Exception {
+	public LocationDto save(LocationDto locationDto) throws LocationException,
+	IllegalArgumentException, Exception {
 
 		if (continentRepository.existsById(locationDto.getContinentId())) {
 
-			Location location = ParserEntity.toLocation(locationDto);
+			Location location = LocationMapper.toLocation(locationDto);
 
 			location = locationRepository.save(location);
 			
-			LocationDto locationReturn=ParserEntity.toDtoLocation(location);
-
-			return locationReturn;
+			return LocationMapper.toDtoLocation(location);
 
 		} 
 
-		throw new ContinentException(ErrorMsg.CONTINENT_NOT_FOUND.toString());
+		throw new ContinentException(ErrorMsg.NO_CONTINENT_RELATED_TO_LOCATION.toString());
 
 	}
 
-	//testeado  PROBAR CUANDO SE INSERTE ICONOS
 	@Transactional
 	public boolean delete(Long id) throws IllegalArgumentException, Exception {
 		
 		if (locationRepository.existsById(id)) {
-
-			//RECUPERO EL LOCATION
-			Location location=locationRepository.getById(id);
-			
-			//OBTENGO LOS ICONOS DEL PAIS  A BORRAR, Y DE CADA ICONO BORRO DE SU LISTA DE PAISES EL PAIS A BORRAR
-			
-			//location.getIcons().forEach(icon -> icon.getLocations().remove(location));
-			
-			for(Icon i:location.getIcons()) {
-				
-				i.getLocations().remove(location);
-			}
-			
-			iconRepository.saveAll(location.getIcons());
 			
 			locationRepository.deleteById(id);
 
@@ -88,7 +67,7 @@ public class LocationService {
 
 	}
 
-	// testeado
+
 	@Transactional
 	public LocationDto update(Long id, LocationDto locationDto)
 			throws LocationException,EntityNotFoundException, IllegalArgumentException, Exception {
@@ -97,19 +76,11 @@ public class LocationService {
 			
 			Location location=locationRepository.getById(id);
 			
-			location.setImg(locationDto.getImg());
-			
-			location.setDenomination(locationDto.getDenomination());
-			
-			location.setPopulation(locationDto.getPopulation());
-			
-			location.setSurface(locationDto.getSurface());
-			
-			location.setContinentId(locationDto.getContinentId());
-						
+			UpdaterEntity.updateLocation(location, locationDto);
+					
 			location=locationRepository.save(location);
 			
-			return ParserEntity.toDtoLocation(location);
+			return LocationMapper.toDtoLocationUpdate(location);
 			
 		} 
 		
@@ -117,75 +88,79 @@ public class LocationService {
 		
 	}
 
-	
-	//listo
+	//listo PROBAR SI SE VEN LOS ICONOS RELACIONADOS A UN PAIS REVISAR YA QUE  AHORA SE GUARDAN 
+	//LOS ICONOS JUNTO AL PAIS
 	@Transactional
-	public LocationDtoGetOne get(Long id) throws EntityNotFoundException, Exception {
+	public LocationDto get(Long id) throws EntityNotFoundException, Exception {
 
 		Location location=locationRepository.getById(id);
 		
-		//chequear que la lista de iconos pueda ser extraida del location
-		
-		return ParserEntity.toDtoLocationGetOne(location);
+		return LocationMapper.toDtoLocation(location);
 		
 	}
 
-	//listo
 	@Transactional
 	public List<LocationDtoGetAll> getAll() throws Exception {
 
 		List<Location> locations=locationRepository.findAll();
 		
-		return ParserEntity.toDtoLocationGetAll(locations);
+		return LocationMapper.toDtoLocationGetAll(locations);
 		
 	}
 	
-	//listo
+
 	@Transactional
 	public List<LocationDtoGetAll> getAllByOrder(String order) throws Exception {
 
 		List<Location> locations;
-		
-		//obligatoriamente el ordenamiento debe hacerse por algun campo del objeto
-		
+			
 		if(order.equalsIgnoreCase("asc")){
 			
-			locations=locationRepository.findAll(Sort.by("img"));
+			locations=locationRepository.findAll(Sort.by("lId"));
 			
 		} else {
 			
-			locations=locationRepository.findAll(Sort.by(Direction.DESC, "img"));
+			locations=locationRepository.findAll(Sort.by(Direction.DESC, "lId"));
 			
 		}
 		
-		return ParserEntity.toDtoLocationGetAll(locations);
+		return LocationMapper.toDtoLocationGetAll(locations);
 		
 	}
 
-	//LISTO DEVUELVE VACIO SI SE INTRODUCE UN ID ERRONEO
 	@Transactional
 	public List<LocationDtoGetAll> getByContinent(Long continentId) throws Exception {
 		
-		Session session=sessionFactory.openSession();
+		/*esto funciona perfecto
+		 * Session session=sessionFactory.openSession();
 			
 		List<Location> locations=session.createQuery(" from Location loc where loc.continentId = :continent")
-				.setParameter("continent", continentId).getResultList();
+				.setParameter("continent", continentId).getResultList();*/
 		
-		return ParserEntity.toDtoLocationGetAll(locations);
+		//forma mas correcta
+		if(continentRepository.existsById(continentId)) {
+			
+			Continent continent=continentRepository.getById(continentId);
+			
+			List<Location> locations=continent.getLocations();
+			
+			return LocationMapper.toDtoLocationGetAll(locations);
+			
+		}
 		
+		throw new LocationException(ErrorMsg.NO_CONTINENT_RELATED_TO_LOCATION.toString());
+			
 	}
 
-	//listo
 	@Transactional
-	public LocationDtoGetOne getByName(String name) throws NoResultException,Exception {
+	public LocationDto getByName(String name) throws NoResultException,Exception {
 		
 		Session session=sessionFactory.openSession();
 		
 		Location location=(Location) session.createQuery(" from Location loc where loc.denomination =:name")
 				.setParameter("name", name).getSingleResult();
 		
-
-		return ParserEntity.toDtoLocationGetOne(location);
+		return LocationMapper.toDtoLocation(location);
 	}
 
 }

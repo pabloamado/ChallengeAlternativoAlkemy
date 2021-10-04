@@ -4,16 +4,15 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.ContinentException;
+import com.alkemy.ar.mapper.ContinentMapper;
 import com.alkemy.ar.model.Continent;
-import com.alkemy.ar.parser.ParserEntity;
 import com.alkemy.ar.repository.ContinentRepository;
+import com.alkemy.ar.updater.UpdaterEntity;
 
 @Service
 public class ContinentService {
@@ -21,17 +20,15 @@ public class ContinentService {
 	@Autowired
 	private ContinentRepository continentRepository;
 
-	//listo
 	@Transactional
 	public ContinentDto save(ContinentDto continentDto) throws IllegalArgumentException, Exception {
 
-		Continent continent = continentRepository.save(ParserEntity.toContinent(continentDto));
+		Continent continent = continentRepository.save(ContinentMapper.toContinent(continentDto));
 
-		return ParserEntity.toDtoContinent(continent);
+		return ContinentMapper.toDtoContinent(continent);
 
 	}
 
-	//listo
 	@Transactional
 	public boolean delete(Long id) throws ContinentException,IllegalArgumentException, Exception {
 
@@ -47,38 +44,33 @@ public class ContinentService {
 
 	}
 
-	//listo
 	@Transactional
 	public ContinentDto update(Long id, ContinentDto continentDto) throws EntityNotFoundException,IllegalArgumentException,Exception {
 
 		Continent  continent = continentRepository.getById(id);
 		
-		continent.setImg(continentDto.getImg());
-
-		continent.setDenomination(continentDto.getDenomination());
+		UpdaterEntity.updateContinent(continent, continentDto);
 	
 		continent=continentRepository.save(continent);
 
-		return ParserEntity.toDtoContinent(continent);
+		return ContinentMapper.toDtoContinent(continent);
 	}
-
-	//LISTO
+	
 	@Transactional
 	public ContinentDto get(Long id) throws EntityNotFoundException, Exception {
 
 		Continent continent = continentRepository.getById(id);
 		
-		return ParserEntity.toDtoContinent(continent);
+		return ContinentMapper.toDtoContinent(continent);
 
 	}
 
-	//listo
 	@Transactional
 	public List<ContinentDto> getAll() throws Exception {
 
 		List<Continent> continents = (List<Continent>) continentRepository.findAll();
 		
-		return ParserEntity.toDtoContinent(continents);
+		return ContinentMapper.toDtoContinentList(continents);
 
 	}
 

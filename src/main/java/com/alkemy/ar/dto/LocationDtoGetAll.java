@@ -14,6 +14,8 @@ public class LocationDtoGetAll {
 		this.population = population;
 	}
 	
+	public LocationDtoGetAll() {}
+
 	public String getImg() {
 		return img;
 	}

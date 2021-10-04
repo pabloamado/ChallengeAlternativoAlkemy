@@ -1,10 +1,9 @@
 package com.alkemy.ar.model;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="icon")
@@ -30,7 +31,8 @@ public class Icon {
 	private String denomination;
 	
 	@Column(name="icon_creation_date")
-	private Date creationDate;
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	private LocalDate creationDate;
 	
 	@Column(name="icon_height")
 	private float height;
@@ -38,13 +40,12 @@ public class Icon {
 	@Column(name="icon_story")
 	private String story;
 	
-	@ManyToMany(mappedBy = "icons", fetch=FetchType.LAZY,cascade= {CascadeType.DETACH,
-			CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToMany(mappedBy = "icons",fetch = FetchType.LAZY)
 	private List<Location> locations;
 	
 	public Icon() {}
 	
-	public Icon(String img, String denomination, Date creationDate, float height, String story) {
+	public Icon(String img, String denomination, LocalDate creationDate, float height, String story) {
 		
 		this.img = img;
 		this.denomination = denomination;
@@ -77,11 +78,11 @@ public class Icon {
 		this.denomination = denomination;
 	}
 
-	public Date getCreationDate() {
+	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -101,6 +102,7 @@ public class Icon {
 		this.story = story;
 	}
 
+	
 	public List<Location> getLocations() {
 		
 		if(locations==null) {
@@ -113,8 +115,24 @@ public class Icon {
 		
 		getLocations().add(location);
 		
-		location.addIcon(this);
+	}
+	
+	public void removeLocation(Location location) {
 		
+		getLocations().remove(location);
+	}
+	
+	public boolean equals(Object object) {
+		
+		if(this==object) return true;
+		
+		if(object==null) return false;
+		
+		if(getClass()!=object.getClass()) return false;
+		
+		final Location otherLocation=(Location) object;
+		
+		return this.iId==otherLocation.getlId();
 	}
 		
 }

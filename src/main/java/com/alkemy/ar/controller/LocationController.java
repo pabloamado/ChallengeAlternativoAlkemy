@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
-import com.alkemy.ar.dto.LocationDtoGetOne;
 import com.alkemy.ar.error.CustomError;
 import com.alkemy.ar.error.ErrorMsg;
-import com.alkemy.ar.exception.ContinentException;
 import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.service.LocationService;
 import com.alkemy.ar.validator.DtoValidator;
@@ -43,9 +41,9 @@ public class LocationController {
 
 				LocationDto location = locationService.save(locationDto);
 
-				return ResponseEntity.ok(location);
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(location);
 
-			} catch (ContinentException e) {
+			} catch (LocationException e) {
 
 				return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
 
@@ -55,7 +53,8 @@ public class LocationController {
 
 			} catch (Exception e) {
 
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(
+						e.getMessage()));
 			}
 
 		}
@@ -65,17 +64,16 @@ public class LocationController {
 
 	}
 
-	//testeado, falta ver si funcionan con la recuperacion de iconos
-	@GetMapping("/{idString}")
-	public ResponseEntity<?> getLocation(@PathVariable String idString) {
+	//testeado
+	@GetMapping("/{idLocation}")
+	public ResponseEntity<?> getLocation(@PathVariable String idLocation) {
 
 		try {
 
-			Long id = Long.valueOf(idString);
+			Long id = Long.valueOf(idLocation);
 
-			LocationDtoGetOne location = locationService.get(id);
+			LocationDto location = locationService.get(id);
 			
-			//LOCATION CON TODOS SUS ATRIBUTOS Y SU LISTADO DE ICONOS
 			return ResponseEntity.ok(location);
 
 		} catch (NumberFormatException e) {
@@ -118,7 +116,7 @@ public class LocationController {
 
 		try {
 			
-			LocationDtoGetOne location=locationService.getByName(name);
+			LocationDto location=locationService.getByName(name);
 			
 			return  ResponseEntity.ok(location);
 			
@@ -159,7 +157,7 @@ public class LocationController {
 
 	}
 
-	//testeado 
+	//testeado
 	@GetMapping(params = "order")
 	public ResponseEntity<?> getLocationsByOrder(@RequestParam String order) {
 
@@ -185,14 +183,14 @@ public class LocationController {
 	}
 
 	//testeado
-	@PutMapping("/{idString}")
-	public ResponseEntity<?> updateLocation(@PathVariable String idString, @RequestBody LocationDto locationDto) {
+	@PutMapping("/{idLocation}")
+	public ResponseEntity<?> updateLocation(@PathVariable String idLocation, @RequestBody LocationDto locationDto) {
 
-		if (DtoValidator.validDtoProperties(locationDto)) {
+		if (DtoValidator.validDtoPropertiesToUpdate(locationDto)) {
 
 			try {
 				
-				Long id = Long.valueOf(idString);
+				Long id = Long.valueOf(idLocation);
 
 				LocationDto location = locationService.update(id, locationDto);
 				
@@ -222,13 +220,13 @@ public class LocationController {
 				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
 	}
 
-	//testeado probarlo cuando se inserten iconos
-	@DeleteMapping("/{idString}")
-	public ResponseEntity<?> deleteLocation(@PathVariable String idString) {
+	//testeado borro el pais, borro los registros de la join table pero no borro los iconos
+	@DeleteMapping("/{idLocation}")
+	public ResponseEntity<?> deleteLocation(@PathVariable String idLocation) {
 
 		try {
 			
-			Long id=Long.valueOf(idString);
+			Long id=Long.valueOf(idLocation);
 			
 			boolean success=locationService.delete(id);
 					

@@ -1,26 +1,24 @@
 package com.alkemy.ar.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class IconDto {
 
-private String img;
-	
+	private String img;
 	private String denomination;
-	private Date creationDate;
+	private LocalDate creationDate;
 	private float height;
 	private String story;
-	private Long locationId;
-	//con el location id accedo al registro location  para corroborar su existencia, sino devuelvo un error, 
-	// en el caso que exista puedo actualizar 
-	public IconDto(String img, String denomination, Date creationDate, float height, String story, Long locationId) {
+	
+	public IconDto() {}
+	
+	public IconDto(String img, String denomination, LocalDate creationDate, float height, String story) {
 		
 		this.img = img;
 		this.denomination = denomination;
 		this.creationDate = creationDate;
 		this.height = height;
 		this.story = story;
-		this.locationId = locationId;
 	}
 	
 	public String getImg() {
@@ -39,11 +37,11 @@ private String img;
 		this.denomination = denomination;
 	}
 	
-	public Date getCreationDate() {
+	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 	
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
 	
@@ -61,13 +59,5 @@ private String img;
 	public void setStory(String story) {
 		this.story = story;
 	}
-	
-	public Long getLocationId() {
-		return locationId;
-	}
-	
-	public void setLocationId(Long locationId) {
-		this.locationId = locationId;
-	}
-	
+		
 }

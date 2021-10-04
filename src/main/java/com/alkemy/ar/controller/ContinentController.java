@@ -58,12 +58,12 @@ public class ContinentController {
 	}
 
 	// testeado
-	@GetMapping("/{idString}")
-	public ResponseEntity<?> getContinent(@PathVariable String idString) {
+	@GetMapping("/{idContinent}")
+	public ResponseEntity<?> getContinent(@PathVariable String idContinent) {
 
 		try {
 			
-			Long id=Long.valueOf(idString);
+			Long id=Long.valueOf(idContinent);
 			
 			ContinentDto continent = continentService.get(id);
 
@@ -103,15 +103,15 @@ public class ContinentController {
 
 	}
 
-	// listo
-	@PutMapping("/{idString}")
-	public ResponseEntity<?> updateContinent(@PathVariable String idString, @RequestBody ContinentDto continentDto) {
+	// testeado
+	@PutMapping("/{idContinent}")
+	public ResponseEntity<?> updateContinent(@PathVariable String idContinent, @RequestBody ContinentDto continentDto) {
 
 		if(DtoValidator.validDtoProperties(continentDto)) {
 			
 			try {
 				
-				Long id=Long.valueOf(idString);
+				Long id=Long.valueOf(idContinent);
 
 				ContinentDto continent = continentService.update(id, continentDto);
 
@@ -144,12 +144,12 @@ public class ContinentController {
 	}
 
 	// testeado
-	@DeleteMapping("/{idString}")
-	public ResponseEntity<?> deleteContinent(@PathVariable String idString) {
+	@DeleteMapping("/{idContinent}")
+	public ResponseEntity<?> deleteContinent(@PathVariable String idContinent) {
 
 		try {
 
-			Long id=Long.valueOf(idString);
+			Long id=Long.valueOf(idContinent);
 			
 			boolean success = continentService.delete(id);
 

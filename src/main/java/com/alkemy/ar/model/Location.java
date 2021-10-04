@@ -39,7 +39,6 @@ public class Location {
 	@Column(name="continent_id")
 	private Long continentId;
 	
-	
 	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
 			CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	@JoinColumn(name="continent_id", insertable=false, updatable=false)
@@ -136,10 +135,21 @@ public class Location {
 	}
 
 	public void addIcon(Icon icon) {
-
+		//con esto solo funcionaba todo
 		getIcons().add(icon);
 		
-		icon.addLocation(this);
+		//probamos esto
+		icon.getLocations().add(this);
+		
 	}
+	
+	//probamos esto
+	public void removeIcon(Icon icon) {
+		
+		getIcons().remove(icon);
+		
+		icon.getLocations().remove(this);
+	}
+	
 	
 }
