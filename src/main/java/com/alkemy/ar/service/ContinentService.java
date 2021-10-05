@@ -74,4 +74,9 @@ public class ContinentService {
 
 	}
 
+	public Continent getById(Long continentId) {
+		// TODO Auto-generated method stub
+		return continentRepository.getById(continentId);
+	}
+
 }

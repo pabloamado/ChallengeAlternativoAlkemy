@@ -125,15 +125,13 @@ public class Icon {
 	
 	public boolean equals(Object object) {
 		
-		if(this==object) return true;
-		
 		if(object==null) return false;
 		
 		if(getClass()!=object.getClass()) return false;
 		
-		final Location otherLocation=(Location) object;
+		final Icon otherLocation=(Icon) object;
 		
-		return this.iId==otherLocation.getlId();
+		return this.iId==otherLocation.getiId();
 	}
 		
 }

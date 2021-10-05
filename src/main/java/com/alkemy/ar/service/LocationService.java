@@ -1,5 +1,6 @@
 package com.alkemy.ar.service;
 
+
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -15,6 +16,7 @@ import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.mapper.LocationMapper;
+import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.model.Location;
 import com.alkemy.ar.repository.LocationRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
@@ -26,8 +28,10 @@ public class LocationService {
 	private LocationRepository locationRepository;
 	
 	@Autowired
-	SessionFactory sessionFactory;
+	ContinentService continentService;
 	
+	@Autowired
+	SessionFactory sessionFactory;
 	
 	//ya no pregunto si el continente existe
 	@Transactional
@@ -42,13 +46,14 @@ public class LocationService {
 
 	}
 
+	//elimina el pais y la relacion pero no elimina el o los iconos relacionados
 	@Transactional
 	public boolean delete(Long id) throws IllegalArgumentException, Exception {
 		
 		if (locationRepository.existsById(id)) {
 			
 			locationRepository.deleteById(id);
-
+			
 			return true;
 
 		}
@@ -122,11 +127,9 @@ public class LocationService {
 		
 		//forma mas correcta
 			
-			Location location=locationRepository.getById(continentId);
+			Continent continent=continentService.getById(continentId);
 			
-			List<Location> locations=location.getContinent().getLocations();
-			
-			return LocationMapper.toDtoLocationGetAll(locations);
+			return LocationMapper.toDtoLocationGetAll(continent.getLocations());
 					
 	}
 

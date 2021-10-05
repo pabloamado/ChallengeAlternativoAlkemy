@@ -50,8 +50,8 @@ public class Location {
 	        name = "locations_icons", 
 	        joinColumns = { @JoinColumn(name = "location_loc_id") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "icon_icon_id") } )
-	private List<Icon> icons;
-
+	private List<Icon> icons=new ArrayList<>();
+	//private Set<Icon>icons;
 	public Location() {}
 
 	public Location(String img, String denomination, int population, float surface,Long continentId) {
@@ -124,30 +124,22 @@ public class Location {
 	}
 
 	public List<Icon> getIcons() {
-		
-		if(icons==null) {
 			
-			icons=new ArrayList<>();
-			
-		}
-		
 		return icons;
 	}
 
+	
 	public void addIcon(Icon icon) {
 		
-		getIcons().add(icon);
-		
-		icon.getLocations().add(this);
-		
+		this.icons.add(icon);
+			
 	}
 	
-	//probamos esto
+	
 	public void removeIcon(Icon icon) {
 		
-		getIcons().remove(icon);
+		this.icons.remove(icon);
 		
-		icon.getLocations().remove(this);
 	}
 	
 }

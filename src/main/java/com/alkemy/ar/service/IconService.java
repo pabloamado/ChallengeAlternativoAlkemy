@@ -13,7 +13,6 @@ import com.alkemy.ar.dto.IconDtoGetAll;
 import com.alkemy.ar.dto.IconDtoGetOne;
 import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.mapper.IconMapper;
-import com.alkemy.ar.mapper.LocationMapper;
 import com.alkemy.ar.model.Icon;
 import com.alkemy.ar.model.Location;
 import com.alkemy.ar.repository.IconRepository;
@@ -30,64 +29,68 @@ public class IconService {
 	private LocationService locationService;
 	
 	@Autowired
-	private LocationRepository locationRepository;
-
-	@Autowired
 	SessionFactory sessionFactory;
 
 	//listo
 	@Transactional
-	public IconDto save(Long iconId, Long locationId) throws LocationException, IllegalArgumentException, Exception {
+	public IconDto save(IconDto iconDto) throws LocationException, IllegalArgumentException, Exception {
 
-		Icon icon = iconRepository.getById(iconId);
-
-		Location location = locationService.getById(locationId);
-
-		//el problema esta aca
-		location.getIcons().size();
-
-		location.addIcon(icon);
-
-		locationService.save(LocationMapper.toDtoLocation(location));
-
+		Icon icon=IconMapper.toIcon(iconDto);
+			
+		icon=iconRepository.save(icon);
+		
 		return IconMapper.toIconDto(icon);
 
 	}
 
 	//listo
 	@Transactional
-	public boolean delete(Long id) {
+	public void deleteIconFromLocation(Long iconId,Long locationId) {
 
-		//no puede borrar
+		Location location=locationService.getById(locationId);
 		
-		if(iconRepository.existsById(id)) {
+		location.getIcons().size();
+		
+		Icon icon=iconRepository.getById(iconId);
+		
+		location.removeIcon(icon);
+	}
 	
-		iconRepository.deleteById(id);
+	//listo
+	@Transactional
+	public void saveIconInLocation(Long iconId, Long locationId) {
 		
-		return true;
+		Location location=locationService.getById(locationId);
 		
-		}
+		location.getIcons().size();
 		
-		return false;
+		Icon icon=iconRepository.getById(iconId);
+		
+		//puede agregar duplicados
+		location.addIcon(icon);
 	}
 
-	//listo
+
+	//no funciona
 	@Transactional
 	public IconDto update(Long iconId,Long locationId, IconDto iconDto)
 			throws EntityNotFoundException, IllegalArgumentException, Exception {
 		
+		Icon iconFromList=new Icon();
 		
 		Icon icon = iconRepository.getById(iconId);
 
 		Location location=locationService.getById(locationId);
 		
-		//el problema esta aca
-		
 		for(int i=0;i<location.getIcons().size();i++ ) {
 			
 			if(location.getIcons().get(i).getiId()==icon.getiId()) {
 				
-				UpdaterEntity.updateIcon(location.getIcons().get(i), iconDto);
+				iconFromList=location.getIcons().get(i);
+				
+				UpdaterEntity.updateIcon(iconFromList, iconDto);
+				
+				location.getIcons().set(i, iconFromList);
 				
 				break;
 	
@@ -96,7 +99,7 @@ public class IconService {
 	
 		locationService.save(location);
 		
-		return IconMapper.toIconDto(icon);	
+		return IconMapper.toIconDto(iconFromList);	
 		
 	}
 
@@ -158,4 +161,5 @@ public class IconService {
 		return IconMapper.toIconDtoGetAll(location.getIcons());
 	}
 
+	
 }

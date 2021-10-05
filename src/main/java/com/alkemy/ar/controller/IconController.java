@@ -31,16 +31,16 @@ public class IconController {
 	@Autowired
 	private IconService iconService;
 	
-	//no funciona, agrega la relacion del pais y el icono pero vuelve a persistir el pais y el icono con nuevo id
-	// y persiste en la tabla locations_icons de nuevo
-	@PostMapping("/{idIcon}/location/{idLocation}")
-	public ResponseEntity<?> saveIcon(@PathVariable String idIcon,@PathVariable String idLocation) {
+	
+	//FALTA BORRAR UN ICONO POR SI SOLO Y  UPDATEAR
+	
+	//testeado
+	@PostMapping
+	public ResponseEntity<?> saveIcon(@RequestBody IconDto iconDto) {
 
 			try {
-				Long iconId=Long.valueOf(idIcon);
-				Long locationId=Long.valueOf(idLocation);
 
-				IconDto icon = iconService.save(iconId,locationId);
+				IconDto icon = iconService.save(iconDto);
 
 				return ResponseEntity.status(HttpStatus.CREATED).body(icon);
 
@@ -121,7 +121,9 @@ public class IconController {
 			try {
 
 				Long iconId = Long.valueOf(idIcon);
-				Long locationId = Long.valueOf(idIcon);
+				
+				Long locationId = Long.valueOf(idLocation);
+				
 				IconDto icon = iconService.update(iconId,locationId, iconDto);
 
 				return ResponseEntity.ok(icon);
@@ -143,16 +145,34 @@ public class IconController {
 				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
 
 	}
+	
+	
 
-	//no funciona, request method delete not supported
+	//testeado agreg una relacion en la jointable
+	@PostMapping("/{idIcon}/location/{idLocation}")
+	public ResponseEntity<Void> saveIconInLocation(@PathVariable String idIcon,@PathVariable String idLocation) {
+		
+		Long iconId = Long.valueOf(idIcon);
+		
+		Long locationId=Long.valueOf(idLocation);
+		
+		iconService.saveIconInLocation(iconId,locationId);
+		
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+	
+
+	//testeado, borra una relacionen en la join table
 	@DeleteMapping("/{idIcon}/location/{idLocation}")
-	public ResponseEntity<?> deleteIcon(@PathVariable String idIcon,@PathVariable String idLocation) {
+	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable String idIcon,@PathVariable String idLocation) {
 
 		Long iconId = Long.valueOf(idIcon);
 		
-		boolean success=iconService.delete(iconId);
+		Long locationId=Long.valueOf(idLocation);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(success);
+		iconService.deleteIconFromLocation(iconId,locationId);
+		
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 }
