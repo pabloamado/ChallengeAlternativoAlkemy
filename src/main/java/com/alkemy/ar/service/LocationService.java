@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import com.alkemy.ar.criteriaBuilder.LocationSpecification;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.error.ErrorMsg;
@@ -32,6 +33,9 @@ public class LocationService {
 	
 	@Autowired
 	SessionFactory sessionFactory;
+	
+	@Autowired
+	LocationSpecification locationSpecification;
 	
 	//ya no pregunto si el continente existe
 	@Transactional
@@ -144,17 +148,23 @@ public class LocationService {
 		return LocationMapper.toDtoLocation(location);
 	}
 	
-	
+	//METODO PARA FILTRAR
+		public List<LocationDto> getFilteredLocations(String name, Long continent, String order) {
+			
+			List<Location> locations=locationRepository.findAll(locationSpecification.getByFilters(name,continent,order));
+			
+			return LocationMapper.toDtoLocationList(locations);
+		}
+		
 	//METODOS USADOS EN EL ICON SERVICE
-	public Location getById(Long locationId) {
-		
-		return locationRepository.getById(locationId);
-	}
+		public Location getById(Long locationId) {
+			
+			return locationRepository.getById(locationId);
+		}
 
-	public Location save(Location location) {
-		
-		return locationRepository.save(location);
-		
-	}
-
+		public Location save(Location location) {
+			
+			return locationRepository.save(location);
+			
+		}
 }

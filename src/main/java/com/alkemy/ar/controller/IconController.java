@@ -2,6 +2,8 @@ package com.alkemy.ar.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -88,6 +90,18 @@ public class IconController {
 		
 		return ResponseEntity.ok(icon);
 	}
+	
+	//testeado
+		@GetMapping("/filter")
+		public ResponseEntity<?> getIconsByNameAndFilters(@RequestParam(required = false) String name,
+	            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+	            @RequestParam(required = false) Set<Long> cities,
+	            @RequestParam(required = false, defaultValue = "ASC") String order) {
+
+			List<IconDtoGetOne> icons=iconService.getFilteredIcons(name,date,cities,order);
+			
+			return ResponseEntity.ok(icons);
+		}
 
 	
 	//testeado
@@ -109,7 +123,6 @@ public class IconController {
 		
 		return ResponseEntity.ok(icons);
 
-	
 	}
 
 	//no funciona
@@ -145,8 +158,6 @@ public class IconController {
 				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
 
 	}
-	
-	
 
 	//testeado agreg una relacion en la jointable
 	@PostMapping("/{idIcon}/location/{idLocation}")
@@ -161,7 +172,6 @@ public class IconController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
-
 	//testeado, borra una relacionen en la join table
 	@DeleteMapping("/{idIcon}/location/{idLocation}")
 	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable String idIcon,@PathVariable String idLocation) {

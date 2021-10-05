@@ -131,7 +131,19 @@ public class LocationController {
 		}
 		
 	}
+	
+	//testeado
+	@GetMapping("/filter")
+	public ResponseEntity<?> getLocationByNameAndFilters(@RequestParam(required = false) String name,
+            @RequestParam(required = false) Long continent,
+            @RequestParam(required = false, defaultValue = "ASC") String order) {
 
+		List<LocationDto> locationsFiltered=locationService.getFilteredLocations(name,continent,order);
+		
+		return ResponseEntity.ok(locationsFiltered);
+		
+	}
+	
 	//testeado
 	@GetMapping(params = "continent")
 	public ResponseEntity<?> getLocationsByContinent(@RequestParam String continent) {

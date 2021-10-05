@@ -2,12 +2,14 @@ package com.alkemy.ar.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.alkemy.ar.criteriaBuilder.IconSpecification;
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.IconDtoGetAll;
 import com.alkemy.ar.dto.IconDtoGetOne;
@@ -16,7 +18,6 @@ import com.alkemy.ar.mapper.IconMapper;
 import com.alkemy.ar.model.Icon;
 import com.alkemy.ar.model.Location;
 import com.alkemy.ar.repository.IconRepository;
-import com.alkemy.ar.repository.LocationRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
 
 @Service
@@ -30,6 +31,9 @@ public class IconService {
 	
 	@Autowired
 	SessionFactory sessionFactory;
+	
+	@Autowired
+	IconSpecification iconSpecification;
 
 	//listo
 	@Transactional
@@ -159,6 +163,15 @@ public class IconService {
 		location.getIcons().size();
 		
 		return IconMapper.toIconDtoGetAll(location.getIcons());
+	}
+
+	
+	//listo
+	public List<IconDtoGetOne> getFilteredIcons(String name, LocalDate date, Set<Long> cities, String order) {
+		
+		List<Icon> icons=iconRepository.findAll(iconSpecification.getByFilters(name, date, cities, order));
+		
+		return IconMapper.toIconDtoGetOneList(icons);
 	}
 
 	

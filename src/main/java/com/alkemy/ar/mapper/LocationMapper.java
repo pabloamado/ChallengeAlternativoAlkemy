@@ -62,6 +62,7 @@ public class LocationMapper {
 
 	}
 
+	//listo
 	public static LocationDto toDtoLocationUpdate(Location location) {
 		
 		LocationDto locationDto = new LocationDto();
@@ -76,12 +77,26 @@ public class LocationMapper {
 		
 	}
 
+	//listo
 	private static void setLocationDtoValues(LocationDto locationDto, Location location) {
 		locationDto.setImg(location.getImg());
 		locationDto.setDenomination(location.getDenomination());
 		locationDto.setPopulation(location.getPopulation());
 		locationDto.setSurface(location.getSurface());
 		locationDto.setContinentId(location.getContinentId());
+	}
+
+	//listo
+	public static List<LocationDto> toDtoLocationList(List<Location> locations) {
+		
+		List<LocationDto> locationDtos = new ArrayList<>();
+		
+		for(Location location:locations) {
+			
+			locationDtos.add(toDtoLocation(location));
+		}
+		
+		return locationDtos;
 	}
 	
 	
