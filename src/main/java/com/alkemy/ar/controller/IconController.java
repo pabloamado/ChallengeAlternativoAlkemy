@@ -125,9 +125,9 @@ public class IconController {
 
 	}
 
-	//no funciona
-	@PutMapping("/{idIcon}/location/{idLocation}")
-	public ResponseEntity<?> updateIcon(@PathVariable String idIcon,@PathVariable String idLocation, @RequestBody IconDto iconDto) {
+	//testeado
+	@PutMapping("/{idIcon}")
+	public ResponseEntity<?> updateIcon(@PathVariable String idIcon, @RequestBody IconDto iconDto) {
 
 		if (DtoValidator.validDtoProperties(iconDto)) {
 
@@ -135,9 +135,7 @@ public class IconController {
 
 				Long iconId = Long.valueOf(idIcon);
 				
-				Long locationId = Long.valueOf(idLocation);
-				
-				IconDto icon = iconService.update(iconId,locationId, iconDto);
+				IconDto icon = iconService.update(iconId,iconDto);
 
 				return ResponseEntity.ok(icon);
 
@@ -147,7 +145,7 @@ public class IconController {
 						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
 
 			}
@@ -181,6 +179,17 @@ public class IconController {
 		Long locationId=Long.valueOf(idLocation);
 		
 		iconService.deleteIconFromLocation(iconId,locationId);
+		
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+	//testeado, el problema que tenia era que no sabia que no podia borrar un icono si tenia una
+	//relacion en la join table
+	@DeleteMapping("/{idIcon}")
+	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable String idIcon) {
+
+		Long iconId = Long.valueOf(idIcon);
+		
+		iconService.deleteIcon(iconId);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

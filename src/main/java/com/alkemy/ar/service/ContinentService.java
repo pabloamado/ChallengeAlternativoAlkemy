@@ -21,7 +21,7 @@ public class ContinentService {
 	private ContinentRepository continentRepository;
 
 	@Transactional
-	public ContinentDto save(ContinentDto continentDto) throws IllegalArgumentException, Exception {
+	public ContinentDto save(ContinentDto continentDto){
 
 		Continent continent = continentRepository.save(ContinentMapper.toContinent(continentDto));
 

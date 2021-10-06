@@ -75,35 +75,27 @@ public class IconService {
 	}
 
 
-	//no funciona
-	@Transactional
-	public IconDto update(Long iconId,Long locationId, IconDto iconDto)
+	//Funciona
+	public IconDto update(Long iconId, IconDto iconDto)
 			throws EntityNotFoundException, IllegalArgumentException, Exception {
 		
-		Icon iconFromList=new Icon();
+		Session session=sessionFactory.openSession();
+		session.beginTransaction();
+		int flag=session.createQuery("update Icon i set i.denomination=:denomination,"
+				+ " i.img=:image, i.creationDate=:iconDate, i.story=:iconStory, i.height=:height where i.iId=:id ")
+		.setParameter("denomination", iconDto.getDenomination()).setParameter("image", iconDto.getImg())
+		.setParameter("iconDate",iconDto.getCreationDate()).setParameter("iconStory", iconDto.getStory())
+		.setParameter("height", iconDto.getHeight()).setParameter("id", iconId).executeUpdate();
+	
+		session.getTransaction().commit();
 		
-		Icon icon = iconRepository.getById(iconId);
-
-		Location location=locationService.getById(locationId);
-		
-		for(int i=0;i<location.getIcons().size();i++ ) {
+		Icon icon=new Icon();
+		if(flag==1) {
 			
-			if(location.getIcons().get(i).getiId()==icon.getiId()) {
-				
-				iconFromList=location.getIcons().get(i);
-				
-				UpdaterEntity.updateIcon(iconFromList, iconDto);
-				
-				location.getIcons().set(i, iconFromList);
-				
-				break;
-	
-			}
+			UpdaterEntity.updateIcon(icon, iconDto);
 		}
-	
-		locationService.save(location);
-		
-		return IconMapper.toIconDto(iconFromList);	
+
+		return IconMapper.toIconDto(icon);	
 		
 	}
 
@@ -172,6 +164,13 @@ public class IconService {
 		List<Icon> icons=iconRepository.findAll(iconSpecification.getByFilters(name, date, cities, order));
 		
 		return IconMapper.toIconDtoGetOneList(icons);
+	}
+
+	//listo
+	public void deleteIcon(Long iconId) {
+		
+		iconRepository.deleteById(iconId);
+		
 	}
 
 	

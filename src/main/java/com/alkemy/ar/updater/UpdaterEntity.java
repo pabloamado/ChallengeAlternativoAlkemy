@@ -1,8 +1,5 @@
 package com.alkemy.ar.updater;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.LocationDto;
@@ -37,17 +34,15 @@ public class UpdaterEntity {
 	//listo
 	public static void updateIcon (Icon icon,IconDto iconDto) {
 		
-		icon.setImg(icon.getImg());
+		icon.setImg(iconDto.getImg());
 		
-		icon.setDenomination(icon.getDenomination());
+		icon.setDenomination(iconDto.getDenomination());
 		
-		DateTimeFormatter dateFormatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		icon.setCreationDate(iconDto.getCreationDate());
 		
-		icon.setCreationDate(LocalDate.parse(iconDto.getCreationDate().toString(), dateFormatter));
+		icon.setHeight(iconDto.getHeight());
 		
-		icon.setHeight(icon.getHeight());
-		
-		icon.setStory(icon.getStory());
+		icon.setStory(iconDto.getStory());
 		
 	}
 	

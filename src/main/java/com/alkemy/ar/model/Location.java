@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name="location")
 public class Location {
@@ -44,8 +46,9 @@ public class Location {
 	@JoinColumn(name="continent_id", insertable=false, updatable=false)
 	private Continent continent;
 	
-	@ManyToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
-			CascadeType.REFRESH},fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.MERGE, 
+		org.hibernate.annotations.CascadeType.PERSIST})
 	@JoinTable(
 	        name = "locations_icons", 
 	        joinColumns = { @JoinColumn(name = "location_loc_id") }, 

@@ -18,6 +18,7 @@ import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.error.CustomError;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.ContinentException;
+import com.alkemy.ar.exception.InternalServerException;
 import com.alkemy.ar.service.ContinentService;
 import com.alkemy.ar.validator.DtoValidator;
 
@@ -30,7 +31,7 @@ public class ContinentController {
 
 	// testeado
 	@PostMapping
-	public ResponseEntity<?> saveContinent(@RequestBody ContinentDto continentDto) {
+	public ResponseEntity<?> saveContinent(@RequestBody ContinentDto continentDto) throws ContinentException {
 
 		if (DtoValidator.validDtoProperties(continentDto)) {
 
@@ -39,21 +40,16 @@ public class ContinentController {
 				ContinentDto continent = continentService.save(continentDto);
 
 				return ResponseEntity.status(HttpStatus.CREATED).body(continent);
-
-			} catch (IllegalArgumentException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
-
+				
 			} catch (Exception e) {
 
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
+				throw new InternalServerException(e.getMessage());
 
 			}
 
 		}
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(
-				ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
+		throw new ContinentException (ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString());
 	
 	}
 

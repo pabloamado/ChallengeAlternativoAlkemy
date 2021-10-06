@@ -167,4 +167,10 @@ public class LocationService {
 			return locationRepository.save(location);
 			
 		}
+
+		public void flush(Location location) {
+			
+			locationRepository.saveAndFlush(location);
+			
+		}
 }
