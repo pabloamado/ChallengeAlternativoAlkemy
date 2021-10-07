@@ -63,21 +63,6 @@ public class LocationMapper {
 	}
 
 	//listo
-	public static LocationDto toDtoLocationUpdate(Location location) {
-		
-		LocationDto locationDto = new LocationDto();
-
-		if (location != null) {
-
-			setLocationDtoValues(locationDto, location);
-			
-		}
-		
-		return locationDto;
-		
-	}
-
-	//listo
 	private static void setLocationDtoValues(LocationDto locationDto, Location location) {
 		locationDto.setImg(location.getImg());
 		locationDto.setDenomination(location.getDenomination());

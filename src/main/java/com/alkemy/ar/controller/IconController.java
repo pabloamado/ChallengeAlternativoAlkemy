@@ -3,7 +3,6 @@ package com.alkemy.ar.controller;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -20,11 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.IconDtoGetAll;
 import com.alkemy.ar.dto.IconDtoGetOne;
-import com.alkemy.ar.error.CustomError;
-import com.alkemy.ar.error.ErrorMsg;
-import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.service.IconService;
-import com.alkemy.ar.validator.DtoValidator;
 
 @RestController
 @RequestMapping("/icons")
@@ -34,41 +29,20 @@ public class IconController {
 	private IconService iconService;
 	
 	
-	//FALTA BORRAR UN ICONO POR SI SOLO Y  UPDATEAR
 	
-	//testeado
 	@PostMapping
 	public ResponseEntity<?> saveIcon(@RequestBody IconDto iconDto) {
+			
+			IconDto icon = iconService.save(iconDto);
 
-			try {
-
-				IconDto icon = iconService.save(iconDto);
-
-				return ResponseEntity.status(HttpStatus.CREATED).body(icon);
-
-			} catch (LocationException e) {
-
-				return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
-
-			} catch (IllegalArgumentException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
-
-			} catch (Exception e) {
-
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-
-			}
-	
+			return ResponseEntity.status(HttpStatus.CREATED).body(icon);
+		
 	}
 
-	//testeado
 	@GetMapping("/{idIcon}")
-	public ResponseEntity<?> getIcon(@PathVariable String idIcon) {
+	public ResponseEntity<?> getIcon(@PathVariable Long idIcon) {
 
-		Long iconId=Long.valueOf(idIcon);
-		
-		IconDtoGetOne icon=iconService.get(iconId);
+		IconDtoGetOne icon=iconService.get(idIcon);
 		
 		return ResponseEntity.ok(icon);
 	}
@@ -83,115 +57,84 @@ public class IconController {
 	}
 
 	//testeado
-	@GetMapping(params = "name")
-	public ResponseEntity<?> getIconsByName(@RequestParam String name) {
-
-		IconDtoGetOne icon=iconService.getByName(name);
-		
-		return ResponseEntity.ok(icon);
-	}
-	
-	//testeado
-		@GetMapping("/filter")
+		@GetMapping("/icons")//no funcionan los required
 		public ResponseEntity<?> getIconsByNameAndFilters(@RequestParam(required = false) String name,
-	            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-	            @RequestParam(required = false) Set<Long> cities,
-	            @RequestParam(required = false, defaultValue = "ASC") String order) {
-
-			List<IconDtoGetOne> icons=iconService.getFilteredIcons(name,date,cities,order);
+	            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
+	            @RequestParam(required = false) Set<Long> cities) {
+		
+			List<IconDtoGetOne> icons=iconService.getFilteredIcons(name,date,cities);
 			
 			return ResponseEntity.ok(icons);
 		}
 
 	
 	//testeado
-	@GetMapping(params = "date")
-	public ResponseEntity<?> getIconsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-
-		IconDtoGetOne icon=iconService.getByDate(date);
-		
-		return ResponseEntity.ok(icon);
-	}
-
-	//testeado
-	@GetMapping(params = "location")
-	public ResponseEntity<?> getIconsByLocation(@RequestParam String location) {
-
-		Long locationId=Long.valueOf(location);
-		
-		List<IconDtoGetAll> icons=iconService.getByLocation(locationId);
-		
-		return ResponseEntity.ok(icons);
-
-	}
-
-	//testeado
 	@PutMapping("/{idIcon}")
-	public ResponseEntity<?> updateIcon(@PathVariable String idIcon, @RequestBody IconDto iconDto) {
+	public ResponseEntity<?> updateIcon(@PathVariable Long idIcon, @RequestBody IconDto iconDto) {
 
-		if (DtoValidator.validDtoProperties(iconDto)) {
+		IconDto icon = iconService.update(idIcon,iconDto);
 
-			try {
-
-				Long iconId = Long.valueOf(idIcon);
-				
-				IconDto icon = iconService.update(iconId,iconDto);
-
-				return ResponseEntity.ok(icon);
-
-			} catch (NumberFormatException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-
-			}
-
-		}
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
+		return ResponseEntity.ok(icon);
 
 	}
 
-	//testeado agreg una relacion en la jointable
+	//testeado agrega una relacion en la jointable
 	@PostMapping("/{idIcon}/location/{idLocation}")
-	public ResponseEntity<Void> saveIconInLocation(@PathVariable String idIcon,@PathVariable String idLocation) {
-		
-		Long iconId = Long.valueOf(idIcon);
-		
-		Long locationId=Long.valueOf(idLocation);
-		
-		iconService.saveIconInLocation(iconId,locationId);
+	public ResponseEntity<Void> saveIconInLocation(@PathVariable Long idIcon,@PathVariable Long idLocation) {
+	
+		iconService.saveIconInLocation(idIcon,idLocation);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
+	
 	//testeado, borra una relacionen en la join table
 	@DeleteMapping("/{idIcon}/location/{idLocation}")
-	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable String idIcon,@PathVariable String idLocation) {
+	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable Long idIcon,@PathVariable Long idLocation) {
 
-		Long iconId = Long.valueOf(idIcon);
-		
-		Long locationId=Long.valueOf(idLocation);
-		
-		iconService.deleteIconFromLocation(iconId,locationId);
+		iconService.deleteIconFromLocation(idIcon,idLocation);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
-	//testeado, el problema que tenia era que no sabia que no podia borrar un icono si tenia una
-	//relacion en la join table
+	
+	//testeado, NO PUEDE BORRARLO SI HAY UN RELACION EN LA JOIN TABLE
 	@DeleteMapping("/{idIcon}")
-	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable String idIcon) {
+	public ResponseEntity<Void> deleteIcon(@PathVariable Long idIcon) {
 
-		Long iconId = Long.valueOf(idIcon);
-		
-		iconService.deleteIcon(iconId);
+		iconService.deleteIcon(idIcon);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
+	
+	
+	/* IGNORAR
+	//testeado
+		@GetMapping(params = "name")
+		public ResponseEntity<?> getIconsByName(@RequestParam String name) {
+
+			IconDtoGetOne icon=iconService.getByName(name);
+				
+			return ResponseEntity.ok(icon);
+		}
+		
+		//testeado
+		@GetMapping(params = "date")
+		public ResponseEntity<?> getIconsByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+
+			IconDtoGetOne icon=iconService.getByDate(date);
+			
+			return ResponseEntity.ok(icon);
+		}
+
+		//testeado
+		@GetMapping(params = "location")
+		public ResponseEntity<?> getIconsByLocation(@RequestParam Long location) {
+
+			
+			List<IconDtoGetAll> icons=iconService.getByLocation(location);
+			
+			return ResponseEntity.ok(icons);
+
+		}*/
 
 }

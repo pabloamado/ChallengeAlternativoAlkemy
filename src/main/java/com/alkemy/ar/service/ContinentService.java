@@ -1,9 +1,6 @@
 package com.alkemy.ar.service;
 
 import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alkemy.ar.dto.ContinentDto;
@@ -13,51 +10,63 @@ import com.alkemy.ar.mapper.ContinentMapper;
 import com.alkemy.ar.model.Continent;
 import com.alkemy.ar.repository.ContinentRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
+import com.alkemy.ar.validator.DtoValidator;
 
 @Service
 public class ContinentService {
 
 	@Autowired
 	private ContinentRepository continentRepository;
+	
+	@Autowired
+	private DtoValidator dtoValidator;
 
-	@Transactional
 	public ContinentDto save(ContinentDto continentDto){
 
-		Continent continent = continentRepository.save(ContinentMapper.toContinent(continentDto));
-
+		if(dtoValidator.validDtoProperties(continentDto)) {
+			
+		 Continent continent = continentRepository.save(ContinentMapper.toContinent(continentDto));
+		 
 		return ContinentMapper.toDtoContinent(continent);
-
+		
+		}
+		
+		throw new ContinentException(ErrorMsg.WRONG_PARAMETERS_ENTITY_EXCEPTION.toString());
 	}
 
-	@Transactional
-	public boolean delete(Long id) throws ContinentException,IllegalArgumentException, Exception {
+	public void delete(Long id)  {
 
 		if (continentRepository.existsById(id)) {
 
 			continentRepository.deleteById(id);
 
-			return true;
-
+		}else {
+			
+			throw new ContinentException(ErrorMsg.CONTINENT_NOT_FOUND.toString());
+			
 		}
 			
-		throw new ContinentException(ErrorMsg.CONTINENT_NOT_FOUND.toString());
-
 	}
 
-	@Transactional
-	public ContinentDto update(Long id, ContinentDto continentDto) throws EntityNotFoundException,IllegalArgumentException,Exception {
+	public ContinentDto update(Long id, ContinentDto continentDto)  {
 
-		Continent  continent = continentRepository.getById(id);
+		if(dtoValidator.validDtoProperties(continentDto)) {
+			
+			Continent  continent = continentRepository.getById(id);
+			
+			UpdaterEntity.updateContinent(continent, continentDto);
 		
-		UpdaterEntity.updateContinent(continent, continentDto);
-	
-		continent=continentRepository.save(continent);
+			continent=continentRepository.save(continent);
 
-		return ContinentMapper.toDtoContinent(continent);
+			return ContinentMapper.toDtoContinent(continent);
+		}
+		
+		throw new ContinentException(ErrorMsg.WRONG_PARAMETERS_ENTITY_EXCEPTION.toString());
+		
 	}
 	
-	@Transactional
-	public ContinentDto get(Long id) throws EntityNotFoundException, Exception {
+	
+	public ContinentDto get(Long id){
 
 		Continent continent = continentRepository.getById(id);
 		
@@ -65,8 +74,7 @@ public class ContinentService {
 
 	}
 
-	@Transactional
-	public List<ContinentDto> getAll() throws Exception {
+	public List<ContinentDto> getAll() {
 
 		List<Continent> continents = (List<Continent>) continentRepository.findAll();
 		
@@ -74,10 +82,10 @@ public class ContinentService {
 
 	}
 
-	
 	public Continent getById(Long continentId) {
 		
 		return continentRepository.getById(continentId);
 	}
+	
 
 }

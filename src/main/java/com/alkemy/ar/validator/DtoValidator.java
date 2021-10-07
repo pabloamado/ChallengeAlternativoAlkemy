@@ -1,12 +1,15 @@
 package com.alkemy.ar.validator;
 
+import org.springframework.stereotype.Component;
+
 import com.alkemy.ar.dto.ContinentDto;
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.LocationDto;
 
+@Component
 public class DtoValidator {
 
-	public static boolean validDtoProperties(ContinentDto continentDto) {
+	public  boolean validDtoProperties(ContinentDto continentDto) {
 
 		if (continentDto.getImg() != null && continentDto.getDenomination() != null) {
 
@@ -17,7 +20,7 @@ public class DtoValidator {
 	}
 
 	// al momento de insertar un pais me obliga a insertar iconos
-	public static boolean validDtoProperties(LocationDto locationDto) {
+	public  boolean validDtoProperties(LocationDto locationDto) {
 
 		if (locationDto.getImg() != null && locationDto.getDenomination() != null &&
 				locationDto.getPopulation() >= 0 && locationDto.getContinentId()>0 
@@ -30,7 +33,7 @@ public class DtoValidator {
 	}
 	
 	//permite que tenga la lista nula de iconos ,para actualizar solamente los valores  
-	public static boolean validDtoPropertiesToUpdate(LocationDto locationDto) {
+	public  boolean validDtoPropertiesToUpdate(LocationDto locationDto) {
 
 		if (locationDto.getImg() != null && locationDto.getDenomination() != null &&
 				locationDto.getPopulation() >= 0 && locationDto.getContinentId()>0 
@@ -42,7 +45,7 @@ public class DtoValidator {
 		return false;
 	}
 
-	public static boolean validDtoProperties(IconDto iconDto) {
+	public  boolean validDtoProperties(IconDto iconDto) {
 		
 		if(iconDto.getImg() != null && iconDto.getDenomination() != null &&
 				iconDto.getCreationDate()!=null && iconDto.getHeight()>0 &&

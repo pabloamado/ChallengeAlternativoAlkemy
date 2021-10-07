@@ -38,6 +38,14 @@ public class Continent {
 		this.img = img;
 		this.denomination = denomination;
 	}
+	
+	public Long getcId() {
+		return cId;
+	}
+
+	public void setcId(Long cId) {
+		this.cId = cId;
+	}
 
 	public String getImg() {
 		return img;
@@ -55,19 +63,10 @@ public class Continent {
 		this.denomination = denomination;
 	}
 
-	public Long getcId() {
-		return cId;
-	}
-
-	public void setcId(Long cId) {
-		this.cId = cId;
-	}
-
 	public List<Location> getLocations() {
 		
-		if(locations==null) {
+		if(locations==null) 
 			locations=new ArrayList<>();
-		}
 		
 		return locations;
 	}

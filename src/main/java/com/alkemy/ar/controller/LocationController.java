@@ -2,8 +2,6 @@ package com.alkemy.ar.controller;
 
 
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
-import com.alkemy.ar.error.CustomError;
-import com.alkemy.ar.error.ErrorMsg;
-import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.service.LocationService;
-import com.alkemy.ar.validator.DtoValidator;
 
 @RestController
 @RequestMapping("/cities")
@@ -35,138 +29,85 @@ public class LocationController {
 	@PostMapping
 	public ResponseEntity<?> saveLocation(@RequestBody LocationDto locationDto) {
 
-		if (DtoValidator.validDtoProperties(locationDto)) {
+		LocationDto location = locationService.save(locationDto);
 
-			try {
-
-				LocationDto location = locationService.save(locationDto);
-
-				return ResponseEntity.status(HttpStatus.ACCEPTED).body(location);
-
-			} catch (LocationException e) {
-
-				return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
-
-			} catch (IllegalArgumentException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
-
-			} catch (Exception e) {
-
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(
-						e.getMessage()));
-			}
-
-		}
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(location);
 
 	}
 
 	//testeado
 	@GetMapping("/{idLocation}")
-	public ResponseEntity<?> getLocation(@PathVariable String idLocation) {
+	public ResponseEntity<?> getLocation(@PathVariable Long idLocation) {
 
-		try {
-
-			Long id = Long.valueOf(idLocation);
-
-			LocationDto location = locationService.get(id);
+		LocationDto location = locationService.get(idLocation);
 			
-			return ResponseEntity.ok(location);
-
-		} catch (NumberFormatException e) {
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
-
-		} catch (EntityNotFoundException e) {
-			
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomError(e.getMessage()));
-			
-		}catch (Exception e) {
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-			
-		}
+		return ResponseEntity.ok(location);
 
 	}
 
 	//testeado
 	@GetMapping
 	public ResponseEntity<?> getLocations() {
+			
+		List<LocationDtoGetAll> locations=locationService.getAll();
+			
+		return ResponseEntity.ok(locations);
+	
+	}
+	
+	//testeado
+		@GetMapping("/cities")
+	public ResponseEntity<?> getLocationByNameAndFilters(@RequestParam(required = false) String name,
+	       @RequestParam(required = false) Long continent,
+	       @RequestParam(required = false, defaultValue = "ASC") String order) {
 
-		try {
+		List<LocationDto> locationsFiltered=locationService.getFilteredLocations(name,continent,order);
 			
-			List<LocationDtoGetAll> locations=locationService.getAll();
+		return ResponseEntity.ok(locationsFiltered);
 			
-			return ResponseEntity.ok(locations);
-			
-		} catch (Exception e) {
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
 		}
+
+	//testeado
+	@PutMapping("/{idLocation}")
+	public ResponseEntity<?> updateLocation(@PathVariable Long idLocation, @RequestBody LocationDto locationDto) {
+
+		
+		LocationDto location = locationService.update(idLocation, locationDto);
+				
+		return ResponseEntity.ok(location);
 
 	}
 
-	//testeado
-	@GetMapping(params = "name")
-	public ResponseEntity<?> getLocationByName(@RequestParam String name) {
-
-		try {
+	//testeado borro el pais, borro los registros de la join table pero no borro los iconos
+	@DeleteMapping("/{idLocation}")
+	public ResponseEntity<?> deleteLocation(@PathVariable Long idLocation) {
+		
+		locationService.delete(idLocation);
+		
+		return ResponseEntity.ok().build();
 			
+	}
+	
+	
+	/* IGNORAR   
+	@GetMapping(params = "name")  // exception NoResultException
+	public ResponseEntity<?> getLocationByName(@RequestParam String name) {
+	
 			LocationDto location=locationService.getByName(name);
 			
 			return  ResponseEntity.ok(location);
 			
-		}catch(NoResultException e) {
-			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
-			
-		}catch(Exception e) {
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-			
-		}
-		
-	}
-	
-	//testeado
-	@GetMapping("/filter")
-	public ResponseEntity<?> getLocationByNameAndFilters(@RequestParam(required = false) String name,
-            @RequestParam(required = false) Long continent,
-            @RequestParam(required = false, defaultValue = "ASC") String order) {
-
-		List<LocationDto> locationsFiltered=locationService.getFilteredLocations(name,continent,order);
-		
-		return ResponseEntity.ok(locationsFiltered);
-		
 	}
 	
 	//testeado
 	@GetMapping(params = "continent")
 	public ResponseEntity<?> getLocationsByContinent(@RequestParam String continent) {
-
-		try {
-
+	
 			Long continentId = Long.valueOf(continent);
 			
 			List<LocationDtoGetAll> locations=locationService.getByContinent(continentId);
 			
 			return ResponseEntity.ok(locations);
-			
-		}catch(NumberFormatException e) {
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
-
-		} catch (Exception e) {
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-			
-		}
-
 	}
 
 	//testeado
@@ -174,98 +115,17 @@ public class LocationController {
 	public ResponseEntity<?> getLocationsByOrder(@RequestParam String order) {
 
 		if(order.equalsIgnoreCase("desc") || order.equalsIgnoreCase("asc")) {
-			
-			try {
-					
-				List<LocationDtoGetAll> locations=locationService.getAllByOrder(order);
+						
+			List<LocationDtoGetAll> locations=locationService.getAllByOrder(order);
 				
-				return ResponseEntity.ok(locations);
+			return ResponseEntity.ok(locations);
 				
-			} catch (Exception e) {
-				
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-				
-			}
-			
 		}
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(
 				ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION.toString()));
 		
 	}
-
-	//testeado
-	@PutMapping("/{idLocation}")
-	public ResponseEntity<?> updateLocation(@PathVariable String idLocation, @RequestBody LocationDto locationDto) {
-
-		if (DtoValidator.validDtoPropertiesToUpdate(locationDto)) {
-
-			try {
-				
-				Long id = Long.valueOf(idLocation);
-
-				LocationDto location = locationService.update(id, locationDto);
-				
-				return ResponseEntity.ok(location);
-
-			} catch (NumberFormatException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
-
-			} catch (EntityNotFoundException e) {
-
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomError(e.getMessage()));
-				
-			}catch (IllegalArgumentException e) {
-
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(e.getMessage()));
-				
-			}catch (Exception e) {
-
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-			}
-
-		}
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-				(new CustomError(ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
-	}
-
-	//testeado borro el pais, borro los registros de la join table pero no borro los iconos
-	@DeleteMapping("/{idLocation}")
-	public ResponseEntity<?> deleteLocation(@PathVariable String idLocation) {
-
-		try {
-			
-			Long id=Long.valueOf(idLocation);
-			
-			boolean success=locationService.delete(id);
-					
-			if (success) {
-
-				return ResponseEntity.ok(success);
-
-			} 
-
-			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(success);
-			
-		}catch(NumberFormatException e) {
-			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new CustomError(ErrorMsg.WRONG_PATH_VARIABLE_EXCEPTION + " " + e.getMessage()));
-			
-		} catch(LocationException e) {
-			
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new CustomError(e.getMessage()));
-			
-		}catch(Exception e) {
-			
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomError(e.getMessage()));
-			
-		}
-		
-	}
+*/
 
 }
