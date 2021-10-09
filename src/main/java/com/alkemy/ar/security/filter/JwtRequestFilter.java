@@ -22,10 +22,10 @@ import com.alkemy.ar.security.service.UserService;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@Autowired
-	JwtUtilsService jwtUtilsService;
+	private JwtUtilsService jwtUtilsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

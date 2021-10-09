@@ -28,8 +28,6 @@ public class IconController {
 	@Autowired
 	private IconService iconService;
 	
-	
-	
 	@PostMapping
 	public ResponseEntity<?> saveIcon(@RequestBody IconDto iconDto) {
 			

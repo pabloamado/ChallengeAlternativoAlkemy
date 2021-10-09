@@ -20,13 +20,13 @@ import java.util.Collections;
 public class UserService implements UserDetailsService{
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
-	UserMapper userMapper;
+	private UserMapper userMapper;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 	
 	@Override //carga un usuario segun el username pasado por parametro
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

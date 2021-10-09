@@ -4,11 +4,8 @@ package com.alkemy.ar.service;
 import java.util.List;
 
 import javax.transaction.Transactional;
-
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.error.ErrorMsg;
@@ -25,15 +22,9 @@ public class LocationService {
 
 	@Autowired
 	private LocationRepository locationRepository;
-	
+
 	@Autowired
-	ContinentService continentService;
-	
-	@Autowired
-	SessionFactory sessionFactory;
-	
-	@Autowired
-	LocationSpecification locationSpecification;
+	private LocationSpecification locationSpecification;
 	
 	@Autowired
 	private DtoValidator dtoValidator;
@@ -118,18 +109,7 @@ public class LocationService {
 		return locationRepository.getById(locationId);
 	}
 
-	public Location save(Location location) {
-		
-		return locationRepository.save(location);
-			
-	}
-
-	public void flush(Location location) {
-			
-		locationRepository.saveAndFlush(location);
-			
-	}
-		
+	
 /* IGNORAR	
 		@Transactional
 		public List<LocationDtoGetAll> getAllByOrder(String order) throws Exception {

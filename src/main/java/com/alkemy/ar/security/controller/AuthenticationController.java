@@ -25,11 +25,11 @@ import com.alkemy.ar.security.service.UserService;
 public class AuthenticationController {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	@Autowired
-	JwtUtilsService jwtTokenUtil;
+	private JwtUtilsService jwtTokenUtil;
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody CredentialsDto credentialsDto){
