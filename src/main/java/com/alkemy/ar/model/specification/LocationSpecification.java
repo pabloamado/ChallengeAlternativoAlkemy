@@ -1,4 +1,4 @@
-package com.alkemy.ar.criteriaBuilder;
+package com.alkemy.ar.model.specification;
 
 import java.util.ArrayList;
 import java.util.List;

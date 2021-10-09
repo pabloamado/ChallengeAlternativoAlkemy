@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "85cf6ce6-5977-4fc9-a4b4-7f4a2041afaf",
+		"name": "Alkemy Challenge Alternativo Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"pablo-476@hotmail.com\",\r\n    \"password\":\"contraseña\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"pablo\",\r\n    \"password\":\"contraseña\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post continent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"img\":\"images/continents/2.jpg\",\r\n    \"denomination\":\"America Del Norte\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/continent",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"continent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Continents",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/continent",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"continent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get continent by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/continent/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"continent",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update continent with id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"img\":\"images/continents/3.jpg\",\r\n    \"denomination\":\"Europa\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/continent/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"continent",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete continent with id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/continent/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"continent",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add location with icons",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"img\":\"images/locations/1.jpg\",\r\n    \"denomination\":\"españa\",\r\n    \"population\":10000,\r\n    \"surface\":12544.45,\r\n    \"continentId\":1,\r\n    \"icons\":[\r\n        {\r\n            \"img\":\"images/icons/1.jpg\",\r\n           \"denomination\":\"Obelisco\",\r\n           \"creationDate\":\"1936-05-07\",\r\n           \"height\":68,\r\n           \"story\":\"Creada en 1936 como un simbolo patrio\"\r\n        },\r\n        {\r\n            \"img\":\"images/icons/2.jpg\",\r\n            \"denomination\":\"Congreso\",\r\n           \"creationDate\":\"1946-07-02\",\r\n           \"height\":51,\r\n           \"story\":\"Creada en 1946\"\r\n        }\r\n    ]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get locations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get location  with id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cities/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get locations  filtered",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cities/cities?name=arg&continent=1&order=desc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "arg"
+						},
+						{
+							"key": "continent",
+							"value": "1"
+						},
+						{
+							"key": "order",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update location with id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"img\":\"images/locations/3.jpg\",\r\n    \"denomination\":\"Estados Unidos\",\r\n    \"population\":22000,\r\n    \"surface\":20000.00,\r\n    \"continentId\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/cities/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete location with id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cities/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cities",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post icon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"img\":\"images/icons/1.jpg\",\r\n\"denomination\":\"montañas\",\r\n\"creationDate\":\"1900-05-07\",\r\n\"height\":525.25,\r\n\"story\":\"Hecha en 1900\",\r\n\"locationId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/icon",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get icons",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/icons",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get icon with id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/icons/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get icons filtered",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/icons/icons?order=asc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"icons"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "1930-05-07",
+							"disabled": true
+						},
+						{
+							"key": "cities",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "asc"
+						},
+						{
+							"key": "name",
+							"value": "Obelisco",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update icon",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"img\":\"images/icons/4.jpg\",\r\n           \"denomination\":\"montaña gigante\",\r\n           \"creationDate\":\"1930-05-07\",\r\n           \"height\":2585,\r\n           \"story\":\"surgio en el año 200 DC\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/icons/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete icon",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/icons/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete icon from location",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/icons/5/location/6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"5",
+						"location",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add icon in location",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/icons/1/location/6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"icons",
+						"1",
+						"location",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.alkemy.ar.criteriaBuilder.IconSpecification;
+
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.IconDtoGetAll;
 import com.alkemy.ar.dto.IconDtoGetOne;
@@ -17,6 +17,7 @@ import com.alkemy.ar.exception.IconException;
 import com.alkemy.ar.mapper.IconMapper;
 import com.alkemy.ar.model.Icon;
 import com.alkemy.ar.model.Location;
+import com.alkemy.ar.model.specification.IconSpecification;
 import com.alkemy.ar.repository.IconRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
 import com.alkemy.ar.validator.DtoValidator;
@@ -54,6 +55,7 @@ public class IconService {
 
 	}
 
+	@Transactional
 	public void deleteIconFromLocation(Long iconId, Long locationId) {
 
 		Location location = locationService.getById(locationId);
@@ -64,7 +66,8 @@ public class IconService {
 
 		location.removeIcon(icon);
 	}
-
+	
+	@Transactional
 	public void saveIconInLocation(Long iconId, Long locationId) {
 
 		Location location = locationService.getById(locationId);
@@ -145,12 +148,13 @@ public class IconService {
 	// listo
 	public void deleteIcon(Long iconId) {
 
-		if(iconRepository.existsById(iconId)) {
+		if(!iconRepository.existsById(iconId)) {
 		
-			iconRepository.deleteById(iconId);
+			throw new IconException(ErrorMsg.ICON_NOT_FOUND.toString());
+			
 		}
 		
-		throw new IconException(ErrorMsg.ICON_NOT_FOUND.toString());
+		iconRepository.deleteById(iconId);
 		
 	}
 

@@ -71,7 +71,6 @@ public class LocationController {
 	@PutMapping("/{idLocation}")
 	public ResponseEntity<?> updateLocation(@PathVariable Long idLocation, @RequestBody LocationDto locationDto) {
 
-		
 		LocationDto location = locationService.update(idLocation, locationDto);
 				
 		return ResponseEntity.ok(location);

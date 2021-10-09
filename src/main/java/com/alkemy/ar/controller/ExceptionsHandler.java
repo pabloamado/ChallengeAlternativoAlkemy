@@ -1,5 +1,7 @@
 package com.alkemy.ar.controller;
 
+import java.io.IOException;
+
 import javax.persistence.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -63,6 +65,14 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler{
 	protected ResponseEntity<Object> throwNumberFormatException(RuntimeException e, WebRequest webRequest){
 		
 		String message= "Sucedio la siguiente excepción: " + e.getMessage();
+		
+		return handleExceptionInternal(e, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
+	}
+	
+	@ExceptionHandler(value=IOException.class)
+	protected ResponseEntity<Object> throwIOException(RuntimeException e, WebRequest webRequest){
+		
+		String message= "Sucedio el siguiente error de IO: " + e.getMessage();
 		
 		return handleExceptionInternal(e, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
 	}

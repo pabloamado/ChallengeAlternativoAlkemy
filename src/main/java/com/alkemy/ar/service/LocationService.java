@@ -2,16 +2,20 @@ package com.alkemy.ar.service;
 
 
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.alkemy.ar.criteriaBuilder.LocationSpecification;
+
 import com.alkemy.ar.dto.LocationDto;
 import com.alkemy.ar.dto.LocationDtoGetAll;
 import com.alkemy.ar.error.ErrorMsg;
 import com.alkemy.ar.exception.LocationException;
 import com.alkemy.ar.mapper.LocationMapper;
 import com.alkemy.ar.model.Location;
+import com.alkemy.ar.model.specification.LocationSpecification;
 import com.alkemy.ar.repository.LocationRepository;
 import com.alkemy.ar.updater.UpdaterEntity;
 import com.alkemy.ar.validator.DtoValidator;
@@ -52,16 +56,17 @@ public class LocationService {
 	//elimina el pais y la relacion pero no elimina el o los iconos relacionados
 	public void delete(Long id) {
 		
-		if (locationRepository.existsById(id)) {
+		if (!locationRepository.existsById(id)) {
 			
-			locationRepository.deleteById(id);
+			throw new LocationException(ErrorMsg.LOCATION_NOT_FOUND.toString());
 
 		}
-
-		throw new LocationException(ErrorMsg.LOCATION_NOT_FOUND.toString());
-
+			
+		locationRepository.deleteById(id);
+		
 	}
 
+	@Transactional
 	public LocationDto update(Long id, LocationDto locationDto) {
 		
 		if(dtoValidator.validDtoPropertiesToUpdate(locationDto)) {
@@ -73,6 +78,7 @@ public class LocationService {
 			location=locationRepository.save(location);
 				
 			return LocationMapper.toDtoLocation(location);
+			
 		}
 	
 		throw new LocationException(ErrorMsg.WRONG_PARAMETERS_ENTITY_EXCEPTION.toString());
