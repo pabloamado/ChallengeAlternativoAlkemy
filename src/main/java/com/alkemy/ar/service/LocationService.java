@@ -44,7 +44,6 @@ public class LocationService {
 		
 	}
 
-	//elimina el pais y la relacion pero no elimina el o los iconos relacionados
 	public void delete(Long id) {
 		
 		if (!locationRepository.existsById(id)) {
@@ -84,7 +83,6 @@ public class LocationService {
 		
 	}
 
-	
 	public List<LocationDtoGetAll> getAll(){
 
 		List<Location> locations=locationRepository.findAll();

@@ -4,11 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alkemy.ar.dto.IconDto;
 import com.alkemy.ar.dto.IconDtoGetAll;
 import com.alkemy.ar.dto.IconDtoGetOne;
@@ -30,10 +27,7 @@ public class IconService {
 
 	@Autowired
 	private LocationService locationService;
-
-	@Autowired
-	SessionFactory sessionFactory;
-
+	
 	@Autowired
 	IconSpecification iconSpecification;
 
@@ -75,8 +69,7 @@ public class IconService {
 		location.getIcons().size();
 
 		Icon icon = iconRepository.getById(iconId);
-
-		// puede agregar duplicados
+		
 		location.addIcon(icon);
 	}
 
@@ -84,31 +77,12 @@ public class IconService {
 
 		if (dtoValidator.validDtoProperties(iconDto)) {
 
-			Session session = sessionFactory.openSession();
-
-			session.beginTransaction();
-
-			int flag = session.createQuery("update Icon i set i.denomination=:denomination,"
-					+ " i.img=:image, i.creationDate=:iconDate, i.story=:iconStory,"
-					+ " i.height=:height where i.iId=:id ")
-					.setParameter("denomination", iconDto.getDenomination())
-					.setParameter("image", iconDto.getImg())
-					.setParameter("iconDate", iconDto.getCreationDate())
-					.setParameter("iconStory", iconDto.getStory())
-					.setParameter("height", iconDto.getHeight())
-					.setParameter("id", iconId).executeUpdate();
-
-			session.getTransaction().commit();
-
-			Icon icon = new Icon();
-
-			if (flag == 0) {
-
-				throw new IconException(ErrorMsg.ICON_UPDATE_FAIL.toString());
-			}
-
+			Icon icon=iconRepository.getById(iconId);
+	
 			UpdaterEntity.updateIcon(icon, iconDto);
-
+			
+			icon=iconRepository.save(icon);
+			
 			return IconMapper.toIconDto(icon);
 
 		}
@@ -117,7 +91,6 @@ public class IconService {
 
 	}
 
-	// listo
 	@Transactional
 	public IconDtoGetOne get(Long id) {
 
@@ -128,7 +101,6 @@ public class IconService {
 		return IconMapper.toIconDtoGetOne(icon);
 	}
 
-	// listo
 	@Transactional
 	public List<IconDtoGetAll> getAll() {
 
@@ -137,7 +109,6 @@ public class IconService {
 		return IconMapper.toIconDtoGetAll(icons);
 	}
 
-	// listo
 	public List<IconDtoGetOne> getFilteredIcons(String name, LocalDate date, Set<Long> cities) {
 
 		List<Icon> icons = iconRepository.findAll(iconSpecification.getByFilters(name, date, cities));
@@ -145,7 +116,6 @@ public class IconService {
 		return IconMapper.toIconDtoGetOneList(icons);
 	}
 
-	// listo
 	public void deleteIcon(Long iconId) {
 
 		if(!iconRepository.existsById(iconId)) {
