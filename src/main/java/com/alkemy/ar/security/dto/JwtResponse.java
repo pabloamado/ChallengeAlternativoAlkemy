@@ -16,5 +16,4 @@ public class JwtResponse {
 		this.jwt = jwt;
 	}
 	
-	
 }

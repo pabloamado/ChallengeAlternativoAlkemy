@@ -48,9 +48,7 @@ public class AuthenticationController {
 			
 			throw new BadCredentialsException("Usuario o contraseña incorrecta",e);
 		}
-		
-		
-		
+	
 		final String jwt=jwtTokenUtil.generateToken(userDetails);
 		
 		return ResponseEntity.ok(new JwtResponse(jwt));

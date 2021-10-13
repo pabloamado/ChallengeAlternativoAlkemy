@@ -106,7 +106,6 @@ public class LocationService {
 			
 		return locationRepository.getById(locationId);
 	}
-
 	
 /* IGNORAR	
 		@Transactional

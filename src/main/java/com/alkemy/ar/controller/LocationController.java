@@ -25,7 +25,6 @@ public class LocationController {
 	@Autowired
 	private LocationService locationService;
 
-	//testeado
 	@PostMapping
 	public ResponseEntity<?> saveLocation(@RequestBody LocationDto locationDto) {
 
@@ -35,7 +34,6 @@ public class LocationController {
 
 	}
 
-	//testeado
 	@GetMapping("/{idLocation}")
 	public ResponseEntity<?> getLocation(@PathVariable Long idLocation) {
 
@@ -45,7 +43,6 @@ public class LocationController {
 
 	}
 
-	//testeado
 	@GetMapping("/all")
 	public ResponseEntity<?> getLocations() {
 			
@@ -55,7 +52,6 @@ public class LocationController {
 	
 	}
 	
-	//testeado
 		@GetMapping
 	public ResponseEntity<?> getLocationByNameAndFilters(@RequestParam(required = false) String name,
 	       @RequestParam(required = false) Long continent,
@@ -67,7 +63,6 @@ public class LocationController {
 			
 		}
 
-	//testeado
 	@PutMapping("/{idLocation}")
 	public ResponseEntity<?> updateLocation(@PathVariable Long idLocation, @RequestBody LocationDto locationDto) {
 
@@ -77,7 +72,6 @@ public class LocationController {
 
 	}
 
-	//testeado borro el pais, borro los registros de la join table pero no borro los iconos
 	@DeleteMapping("/{idLocation}")
 	public ResponseEntity<?> deleteLocation(@PathVariable Long idLocation) {
 		

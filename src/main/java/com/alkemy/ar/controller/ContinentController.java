@@ -24,7 +24,6 @@ public class ContinentController {
 	@Autowired
 	private ContinentService continentService;
 
-	// testeado
 	@PostMapping
 	public ResponseEntity<?> saveContinent(@RequestBody ContinentDto continentDto) throws ContinentException {
 

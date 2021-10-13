@@ -289,13 +289,12 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/cities/cities?name=arg&continent=1&order=desc",
+					"raw": "localhost:8080/cities?name=arg&continent=1&order=desc",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"cities",
 						"cities"
 					],
 					"query": [
@@ -470,13 +469,12 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/icons/icons?order=asc",
+					"raw": "localhost:8080/icons?order=asc",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"icons",
 						"icons"
 					],
 					"query": [

@@ -9,7 +9,6 @@ import com.alkemy.ar.model.Location;
 
 public class UpdaterEntity {
 
-	//listo
 	public static void updateContinent(Continent continent,ContinentDto continentDto) {
 		
 		continent.setImg(continentDto.getImg());
@@ -17,7 +16,6 @@ public class UpdaterEntity {
 		continent.setDenomination(continentDto.getDenomination());
 	}
 	
-	//listo
 	public static void updateLocation(Location location,LocationDto locationDto) {
 		
 		location.setImg(locationDto.getImg());
@@ -31,7 +29,6 @@ public class UpdaterEntity {
 		location.setContinentId(locationDto.getContinentId());
 	}
 	
-	//listo
 	public static void updateIcon (Icon icon,IconDto iconDto) {
 		
 		icon.setImg(iconDto.getImg());
@@ -45,7 +42,5 @@ public class UpdaterEntity {
 		icon.setStory(iconDto.getStory());
 		
 	}
-	
-	
-	
+		
 }

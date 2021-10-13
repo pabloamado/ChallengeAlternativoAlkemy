@@ -21,5 +21,4 @@ public class CredentialsDto {
 		this.password = password;
 	}
 	
-	
 }

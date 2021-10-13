@@ -34,9 +34,7 @@ public class IconSpecification {
             if(date!=null) {
             	
             	if (StringUtils.hasLength(date.toString())) {
-              
-            		/*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            		LocalDate myDate = LocalDate.parse(date, formatter);*/
+            
             		predicates.add(
 	                        criteriaBuilder.equal(root.get("creationDate"), date)
 	                );

@@ -18,8 +18,7 @@ public class DtoValidator {
 
 		return false;
 	}
-
-	// al momento de insertar un pais me obliga a insertar iconos
+	
 	public  boolean validDtoProperties(LocationDto locationDto) {
 
 		if (locationDto.getImg() != null && locationDto.getDenomination() != null &&
@@ -32,7 +31,6 @@ public class DtoValidator {
 		return false;
 	}
 	
-	//permite que tenga la lista nula de iconos ,para actualizar solamente los valores  
 	public  boolean validDtoPropertiesToUpdate(LocationDto locationDto) {
 
 		if (locationDto.getImg() != null && locationDto.getDenomination() != null &&
