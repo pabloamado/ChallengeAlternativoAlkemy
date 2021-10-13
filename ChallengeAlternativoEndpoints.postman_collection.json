@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"pablo\",\r\n    \"password\":\"contraseña\"\r\n}",
+					"raw": "{\r\n    \"username\":\"pablo-476@hotmail.com\",\r\n    \"password\":\"contraseña\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -234,18 +234,19 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsby00NzZAaG90bWFpbC5jb20iLCJleHAiOjE2MzQxMTk4MzEsImlhdCI6MTYzNDA4MzgzMX0.rQ8EMkaG5_QrRWVXwE3ki6sdTYu2d9LQ4K8f3eVTaq0",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/cities",
+					"raw": "localhost:8080/cities/all",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"cities"
+						"cities",
+						"all"
 					]
 				}
 			},
@@ -322,13 +323,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsby00NzZAaG90bWFpbC5jb20iLCJleHAiOjE2MzM4MzQwNTQsImlhdCI6MTYzMzc5ODA1NH0.dbgCshN2edCtCAM_PTBbsCY6E0PjCIQMghe8hFwsN-M",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"img\":\"images/locations/3.jpg\",\r\n    \"denomination\":\"Estados Unidos\",\r\n    \"population\":22000,\r\n    \"surface\":20000.00,\r\n    \"continentId\":2\r\n}",
+					"raw": "{\r\n    \"img\":\"images/locations/1.jpg\",\r\n    \"denomination\":\"Estados Unidos\",\r\n    \"population\":22000,\r\n    \"surface\":20000.00,\r\n    \"continentId\":2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -336,14 +337,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/cities/1",
+					"raw": "localhost:8080/cities/6",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"cities",
-						"1"
+						"6"
 					]
 				}
 			},
@@ -381,13 +382,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsby00NzZAaG90bWFpbC5jb20iLCJleHAiOjE2MzM5MzYwMjYsImlhdCI6MTYzMzkwMDAyNn0.fGxrAmOTNaSPz29l2wOajQ8WUCEnBq5gDV5PWmuXxrk",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"img\":\"images/icons/1.jpg\",\r\n\"denomination\":\"montañas\",\r\n\"creationDate\":\"1900-05-07\",\r\n\"height\":525.25,\r\n\"story\":\"Hecha en 1900\",\r\n\"locationId\":1\r\n}",
+					"raw": "{\r\n\"img\":\"images/icons/1.jpg\",\r\n\"denomination\":\"montañas heladas\",\r\n\"creationDate\":\"1900-05-07\",\r\n\"height\":525.25,\r\n\"story\":\"Hecha en 1900\",\r\n\"locationId\":1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -395,13 +396,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/icon",
+					"raw": "localhost:8080/icons",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"icon"
+						"icons"
 					]
 				}
 			},
@@ -414,18 +415,19 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsby00NzZAaG90bWFpbC5jb20iLCJleHAiOjE2MzQxMTk4MzEsImlhdCI6MTYzNDA4MzgzMX0.rQ8EMkaG5_QrRWVXwE3ki6sdTYu2d9LQ4K8f3eVTaq0",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/icons",
+					"raw": "localhost:8080/icons/all",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"icons"
+						"icons",
+						"all"
 					]
 				}
 			},
@@ -509,13 +511,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsbyIsImV4cCI6MTYzMzc1ODMxMCwiaWF0IjoxNjMzNzIyMzEwfQ.rPP3X3c2GFzMBjtdY6W2GSrwJ79gc8pKp1AHWaAhWO4",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYWJsby00NzZAaG90bWFpbC5jb20iLCJleHAiOjE2MzQxMTk4MzEsImlhdCI6MTYzNDA4MzgzMX0.rQ8EMkaG5_QrRWVXwE3ki6sdTYu2d9LQ4K8f3eVTaq0",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"img\":\"images/icons/4.jpg\",\r\n           \"denomination\":\"montaña gigante\",\r\n           \"creationDate\":\"1930-05-07\",\r\n           \"height\":2585,\r\n           \"story\":\"surgio en el año 200 DC\"\r\n        }",
+					"raw": "{\r\n        \"img\":\"images/icons/1.jpg\",\r\n           \"denomination\":\"Congreso de Tucuman\",\r\n           \"creationDate\":\"1930-05-07\",\r\n           \"height\":2585,\r\n           \"story\":\"simbolo patrio\"\r\n        }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -523,14 +525,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/icons/4",
+					"raw": "localhost:8080/icons/1",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"icons",
-						"4"
+						"1"
 					]
 				}
 			},

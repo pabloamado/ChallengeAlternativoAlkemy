@@ -18,7 +18,7 @@ import com.alkemy.ar.exception.LocationException;
 public class ExceptionsHandler extends ResponseEntityExceptionHandler{
 	
 	
-	@ExceptionHandler(value=ContinentException.class) /*errores.class*/
+	@ExceptionHandler(value=ContinentException.class)
 	protected ResponseEntity<Object> throwContinentException(RuntimeException e, WebRequest webRequest){
 		
 		String message= "Sucedio la siguiente excepción en ContinentService: " + e.getMessage();

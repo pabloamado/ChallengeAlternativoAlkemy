@@ -12,7 +12,6 @@ import com.alkemy.ar.model.Icon;
 
 public class IconMapper {
 
-	//listo
 	public static Icon toIcon(IconDto iconDto) {
 
 		Icon icon = new Icon();
@@ -22,7 +21,6 @@ public class IconMapper {
 		return icon;
 	}
 
-	// listo
 	public static List<Icon> toIconList(List<IconDto> iconDtos) {
 
 		List<Icon> icons = new ArrayList<>();
@@ -39,7 +37,6 @@ public class IconMapper {
 		return icons;
 	}
 
-	//listo
 	public static IconDto toIconDto(Icon icon) {
 
 		IconDto iconDto = new IconDto();
@@ -52,7 +49,7 @@ public class IconMapper {
 		return iconDto;
 	}
 
-	// listo
+
 	public static List<IconDto> toIconDtoList(List<Icon> icons) {
 
 		List<IconDto> iconDtos = new ArrayList<>();
@@ -73,7 +70,6 @@ public class IconMapper {
 		return iconDtos;
 	}
 
-	// listo
 	public static IconDtoGetOne toIconDtoGetOne(Icon icon) {
 
 		IconDtoGetOne iconDto = new IconDtoGetOne();
@@ -90,7 +86,6 @@ public class IconMapper {
 		return iconDto;
 	}
 
-	//listo
 	private static void setIconDtoValues(IconDto iconDto, Icon icon) {
 
 		iconDto.setImg(icon.getImg());
@@ -101,7 +96,6 @@ public class IconMapper {
 		iconDto.setStory(icon.getStory());
 	}
 
-	//listo
 	private static void setIconValues(Icon icon, IconDto iconDto) {
 		icon.setImg(iconDto.getImg());
 		icon.setDenomination(iconDto.getDenomination());
@@ -111,7 +105,6 @@ public class IconMapper {
 		icon.setStory(iconDto.getStory());
 	}
 
-	//listo
 	public static List<IconDtoGetAll> toIconDtoGetAll(List<Icon> icons) {
 
 		List<IconDtoGetAll> iconDtos = new ArrayList<>();
@@ -130,7 +123,6 @@ public class IconMapper {
 	}
 	
 	
-	//listo
 	public static List<IconDtoGetOne> toIconDtoGetOneList(List<Icon> icons) {
 		
 		List<IconDtoGetOne> iconDtos=new ArrayList<>();

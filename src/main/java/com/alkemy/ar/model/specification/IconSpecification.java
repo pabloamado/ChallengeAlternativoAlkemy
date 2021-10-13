@@ -49,7 +49,6 @@ public class IconSpecification {
                 predicates.add(citiesId.in(cities));
             }
 
-            // Remove duplucates
             query.distinct(true);
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

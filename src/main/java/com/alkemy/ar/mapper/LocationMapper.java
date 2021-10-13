@@ -9,7 +9,6 @@ import com.alkemy.ar.model.Location;
 
 public class LocationMapper {
 
-	// listo
 	public static Location toLocation(LocationDto locationDto) {
 
 		Location location = new Location();
@@ -24,7 +23,6 @@ public class LocationMapper {
 		return location;
 	}
 
-	// listo
 	public static LocationDto toDtoLocation(Location location) {
 
 		LocationDto locationDto = new LocationDto();
@@ -39,7 +37,6 @@ public class LocationMapper {
 		return locationDto;
 	}
 
-	// listo
 	public static List<LocationDtoGetAll> toDtoLocationGetAll(List<Location> locations) {
 
 		List<LocationDtoGetAll> locationsDto = new ArrayList<>();
@@ -62,7 +59,6 @@ public class LocationMapper {
 
 	}
 
-	//listo
 	private static void setLocationDtoValues(LocationDto locationDto, Location location) {
 		locationDto.setImg(location.getImg());
 		locationDto.setDenomination(location.getDenomination());
@@ -71,7 +67,6 @@ public class LocationMapper {
 		locationDto.setContinentId(location.getContinentId());
 	}
 
-	//listo
 	public static List<LocationDto> toDtoLocationList(List<Location> locations) {
 		
 		List<LocationDto> locationDtos = new ArrayList<>();
@@ -83,7 +78,5 @@ public class LocationMapper {
 		
 		return locationDtos;
 	}
-	
-	
 
 }

@@ -45,8 +45,7 @@ public class IconController {
 		return ResponseEntity.ok(icon);
 	}
 
-	//testeado
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<?> getIcons() {
 
 		List<IconDtoGetAll> icons=iconService.getAll();
@@ -54,8 +53,7 @@ public class IconController {
 		return ResponseEntity.ok(icons);
 	}
 
-	//testeado
-		@GetMapping("/icons")//no funcionan los required
+		@GetMapping
 		public ResponseEntity<?> getIconsByNameAndFilters(@RequestParam(required = false) String name,
 	            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date,
 	            @RequestParam(required = false) Set<Long> cities) {
@@ -66,7 +64,6 @@ public class IconController {
 		}
 
 	
-	//testeado
 	@PutMapping("/{idIcon}")
 	public ResponseEntity<?> updateIcon(@PathVariable Long idIcon, @RequestBody IconDto iconDto) {
 
@@ -76,7 +73,6 @@ public class IconController {
 
 	}
 
-	//testeado agrega una relacion en la jointable
 	@PostMapping("/{idIcon}/location/{idLocation}")
 	public ResponseEntity<Void> saveIconInLocation(@PathVariable Long idIcon,@PathVariable Long idLocation) {
 	
@@ -86,7 +82,6 @@ public class IconController {
 	}
 	
 	
-	//testeado, borra una relacionen en la join table
 	@DeleteMapping("/{idIcon}/location/{idLocation}")
 	public ResponseEntity<Void> deleteIconFromLocation(@PathVariable Long idIcon,@PathVariable Long idLocation) {
 
@@ -95,7 +90,6 @@ public class IconController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
-	//testeado, NO PUEDE BORRARLO SI HAY UN RELACION EN LA JOIN TABLE
 	@DeleteMapping("/{idIcon}")
 	public ResponseEntity<Void> deleteIcon(@PathVariable Long idIcon) {
 

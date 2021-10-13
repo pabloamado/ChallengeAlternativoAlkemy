@@ -34,7 +34,6 @@ public class ContinentController {
 
 	}
 
-	// testeado
 	@GetMapping("/{idContinent}")
 	public ResponseEntity<?> getContinent(@PathVariable Long idContinent) {
 
@@ -44,7 +43,6 @@ public class ContinentController {
 
 	}
 
-	// testeado
 	@GetMapping
 	public ResponseEntity<?> getContinents() {
 
@@ -54,7 +52,6 @@ public class ContinentController {
 
 	}
 
-	// testeado
 	@PutMapping("/{idContinent}")
 	public ResponseEntity<?> updateContinent(@PathVariable Long idContinent, @RequestBody ContinentDto continentDto) {
 
@@ -62,14 +59,8 @@ public class ContinentController {
 
 		return ResponseEntity.ok(continent);
 
-		/*
-		 * return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomError(
-		 * ErrorMsg.WRONG_ENTITY_PARAMETERS_EXCEPTION.toString()));
-		 */
-
 	}
 
-	// testeado
 	@DeleteMapping("/{idContinent}")
 	public ResponseEntity<?> deleteContinent(@PathVariable Long idContinent) {
 

@@ -8,7 +8,6 @@ import com.alkemy.ar.model.Continent;
 
 public class ContinentMapper {
 	
-	// listo
 		public static Continent toContinent(ContinentDto continentDto) {
 
 			Continent continent = new Continent();
@@ -18,7 +17,6 @@ public class ContinentMapper {
 			return continent;
 		}
 
-		// listo
 		public static ContinentDto toDtoContinent(Continent continent) {
 
 			ContinentDto continentDto = new ContinentDto();
@@ -34,7 +32,6 @@ public class ContinentMapper {
 			return continentDto;
 		}
 
-		// listo
 		public static List<ContinentDto> toDtoContinentList(List<Continent> continents) {
 
 			List<ContinentDto> continentsDtos = new ArrayList<>();

@@ -34,11 +34,8 @@ public class LocationSpecification {
                 Expression<String> idContinent = join.get("cId");
                 predicates.add(idContinent.in(continentId));
             }
-
-            // Remove duplucates
             query.distinct(true);
 
-            // Order resolver
             String orderByField = "denomination";
             query.orderBy(
                     order.equalsIgnoreCase("asc") ?

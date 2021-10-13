@@ -46,7 +46,7 @@ public class LocationController {
 	}
 
 	//testeado
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<?> getLocations() {
 			
 		List<LocationDtoGetAll> locations=locationService.getAll();
@@ -56,7 +56,7 @@ public class LocationController {
 	}
 	
 	//testeado
-		@GetMapping("/cities")
+		@GetMapping
 	public ResponseEntity<?> getLocationByNameAndFilters(@RequestParam(required = false) String name,
 	       @RequestParam(required = false) Long continent,
 	       @RequestParam(required = false, defaultValue = "ASC") String order) {
